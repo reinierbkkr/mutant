@@ -17,10 +17,12 @@ Making an interactive drum machine, where the user can use the mouse to crate a 
 **Shoulds**
 - Store and retrieve a beat pattern in a database
 - Make the BPM changeable
+- Release on remote server
 
 **Coulds**
 - Make an algorithm to generate beat patterns in the backend 
 - Loop the beat and edit live
+- Responsive design
 
 **Woulds**
 
@@ -32,3 +34,4 @@ Making an interactive drum machine, where the user can use the mouse to crate a 
 ## Personal learning goals
 
 - Make structured use of issueboard/todolist
+- Ask for help
