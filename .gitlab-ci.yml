@@ -1,76 +1,44 @@
-#image: gradle:8.6
-#
-#variables:
-#  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
-#
-#before_script:
-#  - export GRADLE_USER_HOME=`pwd`/.gradle
-#
-#cache:
-#  paths:
-#    - .gradle/wrapper
-#    - .gradle/caches
-#
-#stages:
-#  - test
-#  - build
-#
-#test:
-#  stage: test
-#  coverage: '/Average Coverage: ([0-9.]+)%/'
-#  script:
-#    - chmod +x /builds/rbakker/hexagon-sun/testandreportcoverage.sh
-#    - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
-#
-#  artifacts:
-#    paths:
-#      - domain/build/reports
-#      - api/build/reports
-#      - persistence/build/reports
-#
-#build:
-#  stage: build
-#  script:
-#      - ./gradlew clean build -Pversion="${CI_PIPELINE_ID}-${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
-#
-#  artifacts:
-#    paths:
-#        - domain/build/libs/*.jar
-#        - domain/build/libs/lib/*.jar
-#        - persistence/build/libs/*.jar
-#        - persistence/build/libs/lib/*.jar
-#        - api/build/libs/*.jar
-#        - api/build/libs/lib/*.jar
-##        - client/
+image: gradle:8.6
 
-stages:          # List of stages for jobs, and their order of execution
-  - build
+variables:
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+stages:
   - test
-  - deploy
+  - build
 
-build-job:       # This job runs in the build stage, which runs first.
+test:
+  stage: test
+  coverage: '/Average Coverage: ([0-9.]+)%/'
+  script:
+    - chmod +x /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+    - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+
+  artifacts:
+    paths:
+      - domain/build/reports
+      - api/build/reports
+      - persistence/build/reports
+
+build:
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+      - ./gradlew clean build -Pversion="${CI_PIPELINE_ID}-${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
-
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+  artifacts:
+    paths:
+        - domain/build/libs/*.jar
+        - domain/build/libs/lib/*.jar
+        - persistence/build/libs/*.jar
+        - persistence/build/libs/lib/*.jar
+        - api/build/libs/*.jar
+        - api/build/libs/lib/*.jar
+#        - client/
