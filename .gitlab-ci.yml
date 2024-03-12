@@ -21,6 +21,7 @@ build-jars:
       - ./gradlew clean build -Pversion="${CI_PIPELINE_ID}-${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
 
   artifacts:
+    when: on_success
     paths:
         - domain/build/libs/*.jar
         - domain/build/libs/lib/*.jar
@@ -28,6 +29,19 @@ build-jars:
         - persistence/build/libs/lib/*.jar
         - api/build/libs/*.jar
         - api/build/libs/lib/*.jar
+
+build-frontend:
+  image: node:hydrogen-alpine3.18
+  stage: build
+  script:
+    - cd client
+    - npm install
+    - npm run build
+  artifacts:
+    when: on_success
+    paths:
+      - client/dist/
+
 
 test-job:
   stage: test
