@@ -12,23 +12,10 @@ cache:
     - .gradle/caches
 
 stages:
-  - test
   - build
+  - test
 
-test:
-  stage: test
-  coverage: '/Average Coverage: ([0-9.]+)%/'
-  script:
-    - chmod +x /builds/rbakker/hexagon-sun/testandreportcoverage.sh
-    - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
-
-  artifacts:
-    paths:
-      - domain/build/reports
-      - api/build/reports
-      - persistence/build/reports
-
-build:
+build-jars:
   stage: build
   script:
       - ./gradlew clean build -Pversion="${CI_PIPELINE_ID}-${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
@@ -41,4 +28,16 @@ build:
         - persistence/build/libs/lib/*.jar
         - api/build/libs/*.jar
         - api/build/libs/lib/*.jar
-#        - client/
+
+test-job:
+  stage: test
+  coverage: '/Average Coverage: ([0-9.]+)%/'
+  script:
+    - chmod +x /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+    - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+
+  artifacts:
+    paths:
+      - domain/build/reports
+      - api/build/reports
+      - persistence/build/reports
