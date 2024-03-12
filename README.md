@@ -9,7 +9,7 @@ Making an interactive drum machine, where the user can use the mouse to crate a 
 ## MoSCoW
 
 **Musts**
-- Vite/Vue frontend
+- Vite/Vue frontend, pleasing to the eye
 - Play multiple sequenced audio samples according to programmed pattern
 - A clickable interface to program a beat
 - Retrieve audio samples from back-end
@@ -21,17 +21,21 @@ Making an interactive drum machine, where the user can use the mouse to crate a 
 
 **Coulds**
 - Make an algorithm to generate beat patterns in the backend 
-- Loop the beat and edit live
+- Loop the beat
+- Edit live
 - Responsive design
 
 **Woulds**
+- Live tempo change
 
 ## Technical learning goals
 
 - Familiarize myself with Vite, Vue and TypeScript
 - Implement front-end unit tests with Vitest
+- Use a simplified git flow
 
 ## Personal learning goals
 
+- Set realistic goals and focus on them
 - Make structured use of issueboard/todolist
-- Ask for help
+- Ask for help early
