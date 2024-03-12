@@ -1,0 +1,44 @@
+image: gradle:8.6
+
+variables:
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  coverage: '/Average Coverage: ([0-9.]+)%/'
+  script:
+    - chmod +x /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+    - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+
+  artifacts:
+    paths:
+      - domain/build/reports
+      - api/build/reports
+      - persistence/build/reports
+
+build:
+  stage: build
+  script:
+      - ./gradlew clean build -Pversion="${CI_PIPELINE_ID}-${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
+
+  artifacts:
+    paths:
+        - domain/build/libs/*.jar
+        - domain/build/libs/lib/*.jar
+        - persistence/build/libs/*.jar
+        - persistence/build/libs/lib/*.jar
+        - api/build/libs/*.jar
+        - api/build/libs/lib/*.jar
+#        - client/
