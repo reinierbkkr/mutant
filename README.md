@@ -24,9 +24,11 @@ Making an interactive drum machine, where the user can use the mouse to crate a 
 - Loop the beat
 - Edit live
 - Responsive design
+- Make audio file of beat
 
 **Woulds**
 - Live tempo change
+- User login system to store users patterns
 
 ## Technical learning goals
 
