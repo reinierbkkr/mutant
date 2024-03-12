@@ -9,15 +9,15 @@ public class StorageController {
     IStorage storage = new Storage();
 
     @GetMapping("/store")
-    public String getStoredItem(@RequestParam(name = "key") String key){
+    public String getStoredItem(@RequestBody GetStoreDTO getStoreDTO){
         System.out.println("Received GET request at /store");
-        return storage.getStoredItem(key);
+        return storage.getStoredItem(getStoreDTO.getKey());
     }
 
     @PostMapping("/store")
-    public void storeItem(@RequestParam(name = "key") String key,@RequestParam(name = "object") String object){
+    public void storeItem(@RequestBody StoreDTO storeDTO){
         System.out.println("Received POST request at /store");
-        storage.storeItem(key, object);
+        storage.storeItem(storeDTO.getKey(), storeDTO.getObject());
     }
 
 }
