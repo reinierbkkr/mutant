@@ -9,9 +9,12 @@ public class StorageController {
     IStorage storage = new Storage();
 
     @GetMapping("/store")
-    public String getStoredItem(@RequestBody GetStoreDTO getStoreDTO){
+    public String getStoredItem(@RequestParam String key){
         System.out.println("Received GET request at /store");
-        return storage.getStoredItem(getStoreDTO.getKey());
+        System.out.println(key);
+        String item = storage.getStoredItem(key);
+        System.out.println(item);
+        return item;
     }
 
     @PostMapping("/store")
