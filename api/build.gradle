@@ -2,10 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.barfuin.gradle.jacocolog' version '2.0.0'
 }
-
-group = 'hexagonsun'
-version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
@@ -14,6 +12,31 @@ java {
 repositories {
 	mavenCentral()
 }
+
+apply plugin: "jacoco"
+
+jacoco {
+	toolVersion = "0.8.7"
+}
+
+apply plugin: "checkstyle"
+
+checkstyle {
+
+	configFile = project(':').file("config/checkstyle/checkstyle.xml")
+	configProperties = ["suppressionFile" : project(':').file("config/checkstyle/suppressions.xml")]
+	toolVersion = "6.1.1"
+}
+
+tasks.withType(Checkstyle) {
+	reports {
+		xml.enabled false
+		html.enabled true
+	}
+}
+
+group = 'hexagonsun'
+version = '0.0.1-SNAPSHOT'
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -27,3 +50,23 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.6
+			}
+		}
+	}
+}
+
+test.finalizedBy jacocoTestReport
+
+task copyAllDependencies(type: Copy) {
+	from configurations.compileClasspath
+	into 'build/libs/lib'
+}
+build.dependsOn(copyAllDependencies)
