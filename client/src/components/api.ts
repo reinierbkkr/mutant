@@ -13,9 +13,7 @@ export async function fetchClickCount() {
     });
 
     if (response.ok) {
-        const result = await response.json();
-        console.log(result);
-        return result;
+        return await response.json();
     } else {
         return {
             statusCode: response.status,
@@ -37,9 +35,7 @@ export async function storeClickCount(count: number) {
         }),
     });
 
-    if (response.ok) {
-        console.log("store button state success")
-    } else {
+    if (!response.ok) {
         return {
             statusCode: response.status,
             statusText: response.statusText

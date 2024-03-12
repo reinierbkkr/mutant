@@ -11,9 +11,7 @@ public class StorageController {
     @GetMapping("/store")
     public String getStoredItem(@RequestParam String key){
         System.out.println("Received GET request at /store");
-        System.out.println(key);
         String item = storage.getStoredItem(key);
-        System.out.println(item);
         return item;
     }
 

@@ -18,11 +18,7 @@ const clickedMessage = computed(() => `clicked ${count.value} times`);
 
 async function storeClicked(){
   await storeClickCount(count.value +1);
-  const newCount =  await fetchClickCount();
-  console.log(newCount)
-  count.value = newCount;
-  console.log(count.value)
-}
+  count.value =  await fetchClickCount();}
 </script>
 
 <template>
