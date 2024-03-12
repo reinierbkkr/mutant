@@ -1,4 +1,4 @@
 rootProject.name = 'hexagonsun'
 
-include ('api', 'domain')
+include ('api', 'domain', 'persistence')
 
