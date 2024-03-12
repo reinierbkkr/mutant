@@ -1,6 +1,6 @@
-package nl.hexagonsun.api.controller;
+package hexagonsun.api;
 
-
+import hexagonsun.domain.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +12,7 @@ public class MessageController {
 
     @GetMapping("/message")
     public String getMessage(){
-        return "Hello world!";
+        return messageGetter.getMessage();
     }
 
 }

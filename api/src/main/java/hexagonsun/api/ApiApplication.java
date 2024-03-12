@@ -1,4 +1,4 @@
-package nl.hexagonsun.api;
+package hexagonsun.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

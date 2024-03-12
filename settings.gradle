@@ -1,3 +1,4 @@
-rootProject.name = 'hexagon-sun'
+rootProject.name = 'hexagonsun'
 
-include ('api')
+include ('api', 'domain')
+
