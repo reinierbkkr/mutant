@@ -8,6 +8,12 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
+  test:{
+    globals:true,
+    coverage: {
+      provider: 'istanbul'
+    }
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
