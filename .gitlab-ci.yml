@@ -10,6 +10,7 @@ cache:
   paths:
     - .gradle/wrapper
     - .gradle/caches
+    - client/node_modules
 
 stages:
   - build
