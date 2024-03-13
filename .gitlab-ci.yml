@@ -42,6 +42,17 @@ build-frontend:
     paths:
       - client/dist/
 
+test-frontend:
+  image: node:hydrogen-alpine3.18
+  stage: test
+  script:
+    - cd client
+#    - npm install
+    - npm run test:unit
+#  artifacts:
+#    when: on_success
+#    paths:
+#      - client/dist/
 
 test-job:
   stage: test
