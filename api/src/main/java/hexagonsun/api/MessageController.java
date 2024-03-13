@@ -14,5 +14,5 @@ public class MessageController {
     public String getMessage(){
         return messageGetter.getMessage();
     }
-    
+
 }

@@ -11,6 +11,65 @@ java {
 	sourceCompatibility = '17'
 }
 
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// Reference the domain and persistence subprojects.
+	implementation project(':domain')
+	implementation project(':persistence')
+}
+
+test {
+	useJUnitPlatform()
+	jacoco {
+		excludes = [
+				'hexagonsun.api.StoreDTO',
+				'hexagonsun.api.GetStoreDTO',
+				'hexagonsun.api.ApiApplication'
+		]
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.7"
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element = 'CLASS'
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.7
+			}
+		}
+	}
+}
+jacocoTestReport {
+	afterEvaluate { //exclude from report
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					'hexagonsun/api/ApiApplication.*',
+					'hexagonsun/api/StoreDTO.*',
+					'hexagonsun/api/GetStoreDTO.*'
+			])
+		}))
+	}
+	reports {
+		xml.enabled true
+		csv.enabled false
+	}
+}
+
+test.finalizedBy jacocoTestReport
+//build.dependsOn jacocoTestCoverageVerification //uncomment this to make it fail
+
 tasks.withType(Checkstyle) {
 	reports {
 		xml.required = true
@@ -24,42 +83,8 @@ checkstyle {
 	toolVersion = "6.1.1"
 }
 
-repositories {
-	mavenCentral()
+task copyAllDependencies(type: Copy) {
+	from configurations.compileClasspath
+	into 'build/libs/lib'
 }
-
-//group = 'hexagonsun'
-//version = '0.0.1-SNAPSHOT'
-
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-	// Reference the domain and persistence subprojects.
-	implementation project(':domain')
-	implementation project(':persistence')
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
-
-//jacocoTestCoverageVerification {
-//	violationRules {
-//		rule {
-//			limit {
-//				counter = 'LINE'
-//				value = 'COVEREDRATIO'
-//				minimum = 0.6
-//			}
-//		}
-//	}
-//}
-//
-//test.finalizedBy jacocoTestReport
-
-//task copyAllDependencies(type: Copy) {
-//	from configurations.compileClasspath
-//	into 'build/libs/lib'
-//}
-//build.dependsOn(copyAllDependencies)
+build.dependsOn(copyAllDependencies)

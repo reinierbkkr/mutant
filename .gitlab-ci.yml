@@ -1,4 +1,4 @@
-image: gradle:8.6
+image: gradle:7.6
 
 variables:
   JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
