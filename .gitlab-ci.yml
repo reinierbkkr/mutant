@@ -39,6 +39,7 @@ build-frontend:
     - npm run build
   artifacts:
     when: on_success
+    expire_in: 14 days
     paths:
       - client/dist/
 
@@ -51,7 +52,7 @@ test-frontend:
     - npm run test:unit
     - npm run test:coverage
 
-test-job:
+test-backend:
   stage: test
   coverage: '/Average Coverage: ([0-9.]+)%/'
   script:
@@ -59,6 +60,7 @@ test-job:
     - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
 
   artifacts:
+    expire_in: 14 days
     paths:
       - domain/build/reports
       - api/build/reports
