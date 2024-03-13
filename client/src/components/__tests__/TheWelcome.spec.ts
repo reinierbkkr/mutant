@@ -5,5 +5,5 @@ import { expect, test } from "vitest";
 const wrapper = mount(TheWelcome);
 
 test("has a button", () => {
-    expect(wrapper.find("button").exists()).toBe(false)
+    expect(wrapper.find("button").exists()).toBe(true)
 })
