@@ -49,10 +49,7 @@ test-frontend:
     - cd client
     - npm install
     - npm run test:unit
-#  artifacts:
-#    when: on_success
-#    paths:
-#      - client/dist/
+    - npm run test:coverage
 
 test-job:
   stage: test
