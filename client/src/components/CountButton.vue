@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { type Ref, ref, computed } from 'vue'
 
 const count = ref({
     first:0,
@@ -12,9 +12,14 @@ function increment() {
     // isActive.value=false
 }
 
-const library = ref({
+interface Library {
+  name: string;
+  books: string[]; // Specify the type of the 'books' array
+}
+
+const library: Ref<Library> = ref({
     name:"Reinier",
-    books:[],
+    books: [],
 });
 const bookMessage = computed (() => { // this is cached
     return library.value.books.length > 0 ? 'has books' : 'no books';
