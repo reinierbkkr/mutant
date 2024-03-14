@@ -2,10 +2,10 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.barfuin.gradle.jacocolog' version '2.0.0'
+	id 'checkstyle'
+	id 'jacoco'
 }
-
-group = 'hexagonsun'
-version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
@@ -24,6 +24,67 @@ dependencies {
 	implementation project(':persistence')
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
+	jacoco {
+		excludes = [
+				'hexagonsun.api.StoreDTO',
+				'hexagonsun.api.GetStoreDTO',
+				'hexagonsun.api.ApiApplication'
+		]
+	}
 }
+
+jacoco {
+	toolVersion = "0.8.7"
+}
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			element = 'CLASS'
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.7
+			}
+		}
+	}
+}
+jacocoTestReport {
+	afterEvaluate { //exclude from report
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					'hexagonsun/api/ApiApplication.*',
+					'hexagonsun/api/StoreDTO.*',
+					'hexagonsun/api/GetStoreDTO.*'
+			])
+		}))
+	}
+	reports {
+		xml.enabled true
+		csv.enabled false
+	}
+}
+
+test.finalizedBy jacocoTestReport
+//build.dependsOn jacocoTestCoverageVerification //uncomment this to make it fail
+
+tasks.withType(Checkstyle) {
+	reports {
+		xml.required = true
+		html.required = true
+	}
+}
+
+checkstyle {
+	configFile = project(':').file("config/checkstyle/checkstyle.xml")
+	configProperties = ["suppressionFile" : project(':').file("config/checkstyle/suppressions.xml")]
+	toolVersion = "6.1.1"
+}
+
+task copyAllDependencies(type: Copy) {
+	from configurations.compileClasspath
+	into 'build/libs/lib'
+}
+build.dependsOn(copyAllDependencies)

@@ -1,0 +1,68 @@
+image: gradle:7.6
+
+variables:
+  JACOCO_CSV_LOCATION: '$CI_PROJECT_DIR/domain/build/jacocoCsv'
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+    - client/node_modules
+
+stages:
+  - build
+  - test
+
+build-jars:
+  stage: build
+  script:
+      - ./gradlew clean build -Pversion="${CI_PIPELINE_ID}-${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
+
+  artifacts:
+    when: on_success
+    paths:
+        - domain/build/libs/*.jar
+        - domain/build/libs/lib/*.jar
+        - persistence/build/libs/*.jar
+        - persistence/build/libs/lib/*.jar
+        - api/build/libs/*.jar
+        - api/build/libs/lib/*.jar
+
+build-frontend:
+  image: node:hydrogen-alpine3.18
+  stage: build
+  script:
+    - cd client
+    - npm install
+    - npm run build
+  artifacts:
+    when: on_success
+    expire_in: 14 days
+    paths:
+      - client/dist/
+
+test-frontend:
+  image: node:hydrogen-alpine3.18
+  stage: test
+  script:
+    - cd client
+    - npm install
+    - npm run test:unit
+    - npm run test:coverage
+
+test-backend:
+  stage: test
+  coverage: '/Average Coverage: ([0-9.]+)%/'
+  script:
+    - chmod +x /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+    - /builds/rbakker/hexagon-sun/testandreportcoverage.sh
+
+  artifacts:
+    expire_in: 14 days
+    paths:
+      - domain/build/reports
+      - api/build/reports
+      - persistence/build/reports
