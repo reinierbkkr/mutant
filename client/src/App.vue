@@ -10,6 +10,7 @@ data: {
   <header>
     <div id="logo">
       <img alt="Mutant logo" class="logo" src="@/assets/logo.png" width="75" height="75" />
+      <h1>Mutant</h1>
     </div>
     <div>
       <nav>
@@ -26,10 +27,25 @@ header {
   line-height: 1.5;
   max-height: 100vh;
   margin: 2rem auto 2rem;
+  padding-right: 2rem;
+  padding-left: 2rem;
+}
+
+nav {
+  text-align: center;
 }
 
 #logo {
-  text-align: center;
+  display:flex;
+  flex-direction: row;
+  margin: 2rem auto 2rem;
+  /* text-align: center; */
+}
+
+h1 {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 2rem;
 }
 
 
