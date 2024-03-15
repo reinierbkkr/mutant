@@ -1,4 +1,4 @@
-package hexagonsun.persistence;
+package mutant.persistence;
 
 import org.junit.jupiter.api.Test;
 

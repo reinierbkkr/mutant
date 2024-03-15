@@ -1,4 +1,4 @@
-package hexagonsun.api;
+package mutant.api;
 
 public class GetStoreDTO {
     private String key;

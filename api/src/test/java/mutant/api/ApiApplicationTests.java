@@ -1,4 +1,4 @@
-package hexagonsun.api;
+package mutant.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
