@@ -42,7 +42,7 @@
 </template>
 
 <style scoped>
-button {
+button, div {
   display: block;
   margin: 2rem auto 2rem;
 }
