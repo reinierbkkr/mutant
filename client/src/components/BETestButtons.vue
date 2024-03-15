@@ -20,7 +20,7 @@
     </script>
 
 <template>
-    <button @click="getMessage">get message </button>
+    <button @click="getMessage">get message</button>
     <div id="message">{{ message }}</div>
     <button @click="storeClicked">{{ clickedMessage }}</button>
     <div>the count is stored and retrieved from persistence</div>
@@ -35,5 +35,6 @@ button {
 #message {
   display: block;
   margin: 2rem auto 2rem;
+  text-align: center;
 }
 </style>
