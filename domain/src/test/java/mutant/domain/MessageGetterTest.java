@@ -1,4 +1,4 @@
-package hexagonsun.domain;
+package mutant.domain;
 
 
 import org.junit.jupiter.api.Test;

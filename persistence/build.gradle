@@ -7,18 +7,18 @@ plugins {
     id 'jacoco'
 }
 
-bootJar {
-    manifest {
-        attributes 'Start-Class': 'com.baeldung.DemoApplication'
-    }
-}
-
 java {
     sourceCompatibility = '17'
 }
 
 repositories {
     mavenCentral()
+}
+
+bootJar {
+    manifest {
+        attributes 'Start-Class': 'mutant.api.ApiApplication'
+    }
 }
 
 dependencies {
@@ -30,9 +30,9 @@ test {
     useJUnitPlatform()
     jacoco {
         excludes = [
-//                'hexagonsun.api.StoreDTO',
-//                'hexagonsun.api.GetStoreDTO',
-//                'hexagonsun.api.ApiApplication'
+//                'mutant.api.StoreDTO',
+//                'mutant.api.GetStoreDTO',
+//                'mutant.api.ApiApplication'
         ]
     }
 }
@@ -57,9 +57,9 @@ jacocoTestReport {
     afterEvaluate { //exclude from report
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-//                    'hexagonsun/api/ApiApplication.*',
-//                    'hexagonsun/api/StoreDTO.*',
-//                    'hexagonsun/api/GetStoreDTO.*'
+//                    'mutant/api/ApiApplication.*',
+//                    'mutant/api/StoreDTO.*',
+//                    'mutant/api/GetStoreDTO.*'
             ])
         }))
     }

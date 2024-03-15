@@ -1,4 +1,4 @@
-package hexagonsun.domain;
+package mutant.domain;
 
 public class MessageGetter implements IMessageGetter{
     @Override

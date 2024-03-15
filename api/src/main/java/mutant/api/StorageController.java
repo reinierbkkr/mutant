@@ -1,6 +1,6 @@
-package hexagonsun.api;
+package mutant.api;
 
-import hexagonsun.persistence.*;
+import mutant.persistence.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
