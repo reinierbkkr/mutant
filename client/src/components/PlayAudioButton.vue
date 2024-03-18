@@ -22,16 +22,18 @@
     }
 
     function playAudio(){
-        console.log(new Date(Date.now()).toISOString())
+        // console.log(new Date(Date.now()).toISOString())
         const audio = new Audio(sampleURL.value)
         audio.play()
     }
 
     async function fetchAudio(){
-        const sample = await fetchSample(0);
-        console.log(sample);
-        if (sample instanceof Blob){
-            sampleURL.value = URL.createObjectURL(sample);
+        const response = await fetchSample(0);
+        if (response instanceof Blob){
+            console.log(response.size)
+            sampleURL.value = URL.createObjectURL(response);
+        } else {
+            console.log(response.statusCode + ": " + response.statusText)
         }
     }
 </script>

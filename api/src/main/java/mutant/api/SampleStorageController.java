@@ -10,7 +10,7 @@ public class SampleStorageController {
 
     @GetMapping("/sample")
     public String getStoredItem(@RequestParam String id){
-        System.out.println("Received GET request at /sample");
+        System.out.println("Received GET request at /sample/id=" + id);
         String item = storage.getAudioData(id);
         return item;
     }

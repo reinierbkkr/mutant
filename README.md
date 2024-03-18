@@ -9,12 +9,16 @@ Making an interactive drum machine, where the user can create a drum pattern tha
 ## How to start
 
 to start the back end run the following command:
+```
 ./gradlew bootRun
+```
 
 to start the client run the following command:
+```
 cd client
 npm run install
 npm run dev
+```
 
 ## MoSCoW
 
@@ -24,7 +28,6 @@ npm run dev
 - A clickable interface to program a beat
 - Retrieve audio samples from back-end
 - Store and retrieve a pattern in a database
-
 
 **Shoulds**
 - Loop the beat

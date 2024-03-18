@@ -13,7 +13,6 @@ public class SampleFileStorage implements ISampleStorage {
     private static final String PATH = "./samples/";
     @Override
     public String getAudioData(String id) {
-        //
         File directoryPath = new File(PATH);
         String[] contents = directoryPath.list();
         int idNumber = Integer.parseInt(id);

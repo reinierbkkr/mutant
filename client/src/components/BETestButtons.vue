@@ -17,6 +17,11 @@
     async function storeClicked(){
       await storeClickCount(count.value +1);
       count.value =  await fetchClickCount();}
+
+    function reset() {
+      message.value = "message";
+      count.value = 0;
+    }
     </script>
 
 <template>
@@ -24,6 +29,7 @@
     <div id="message">{{ message }}</div>
     <button @click="storeClicked">{{ clickedMessage }}</button>
     <div>the count is stored and retrieved from persistence</div>
+    <button @click="reset">reset</button>
 </template>
 
 <style scoped>
