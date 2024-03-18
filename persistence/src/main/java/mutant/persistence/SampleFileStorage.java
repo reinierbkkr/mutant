@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 
 public class SampleFileStorage implements ISampleStorage {
-    private static final String PATH = "./samples/";
+    private static final String PATH = "../samples/";
     @Override
     public String getAudioData(String id) {
         File directoryPath = new File(PATH);
