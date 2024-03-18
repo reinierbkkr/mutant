@@ -4,7 +4,7 @@ A drum machine.
 
 ## Goal
 
-Making an interactive drum machine, where the user can use the mouse to create a drum pattern that is then playable in the browser. The user can save and load patterns.
+Making an interactive drum machine, where the user can create a drum pattern that is then playable in the browser. The user can save and load patterns.
 
 ## How to start
 
@@ -23,12 +23,14 @@ npm run dev
 - Play multiple sequenced audio samples according to programmed pattern
 - A clickable interface to program a beat
 - Retrieve audio samples from back-end
+- Store and retrieve a pattern in a database
+
 
 **Shoulds**
 - Loop the beat
-- Store and retrieve a beat pattern in a database
 - Make the BPM changeable
 - Release on remote server
+- User can load samples
 
 **Coulds**
 - Make an algorithm to generate beat patterns in the backend 
