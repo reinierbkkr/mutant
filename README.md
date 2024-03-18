@@ -40,6 +40,7 @@ npm run dev
 - Edit live
 - Responsive design
 - Make audio file of beat
+- Make a bar that moves over the programmed pattern
 
 **Woulds**
 - Automatic deploy to remote server
