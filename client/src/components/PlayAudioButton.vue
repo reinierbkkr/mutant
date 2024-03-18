@@ -12,7 +12,7 @@
         playing.value = !playing.value;
         if (playing.value) {
             playAudio();
-            audioInterval = setInterval(playAudio, 200);
+            audioInterval = setInterval(playAudio, 1000);
         } else {
             if (audioInterval !== null) {
                 clearInterval(audioInterval);
