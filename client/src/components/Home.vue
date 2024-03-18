@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import PlayAudioButton from './PlayAudioButton.vue'
-import BETestButtons from './BETestButtons.vue'
+    import Pattern from './Pattern.vue';
+// import PlayAudioButton from './PlayAudioButton.vue'
+// import BETestButtons from './BETestButtons.vue'
 </script>
 
 <template>
     <div>
-        <PlayAudioButton />
-        <BETestButtons />
+        <Pattern />
     </div>
 </template>
 
