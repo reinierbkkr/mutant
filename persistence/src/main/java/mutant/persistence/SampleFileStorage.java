@@ -10,17 +10,17 @@ import java.nio.file.Paths;
 
 
 public class SampleFileStorage implements ISampleStorage {
-    private static final String PATH = "../persistence/samples/";
+    private static final String PATH = "./samples/";
     @Override
     public String getAudioData(String id) {
+        //
         File directoryPath = new File(PATH);
         String[] contents = directoryPath.list();
-        String fileName;
         int idNumber = Integer.parseInt(id);
         if (idNumber < 0 || idNumber > contents.length-1){
             System.out.println("invalid id");
         } else {
-            fileName = contents[idNumber];
+            String fileName = contents[idNumber];
             return makeB64String(fileName);
         }
         return null;
