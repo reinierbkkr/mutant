@@ -15,9 +15,13 @@ public class SampleFileStorage implements ISampleStorage {
     public String getAudioData(String id) {
         File directoryPath = new File(PATH);
         String[] contents = directoryPath.list();
+//        System.out.println("Working Directory = " + System.getProperty("user.dir"));
+//        for (int i = 0; i < contents.length; i++) {
+//            System.out.println(contents[i]);
+//        }
         int idNumber = Integer.parseInt(id);
         if (idNumber < 0 || idNumber > contents.length-1){
-            System.out.println("invalid id");
+            System.out.println("invalid id: "+idNumber);
         } else {
             String fileName = contents[idNumber];
             return makeB64String(fileName);

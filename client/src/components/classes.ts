@@ -19,6 +19,14 @@ export class Pattern {
         return this.tracks[index];
     }
 
+    getSampleIds = () => {
+        const sampleIds = [];
+        for (let i = 0; i < this.getNOfTracks(); i++) {
+            sampleIds[i] = this.tracks[i].sampleId;            
+        }
+        return sampleIds;
+    }
+
     isBeatActive = (trackIndex: number, index: number) => {
         return this.tracks[trackIndex].isBeatActive(index);
     }
@@ -46,4 +54,33 @@ export class Track {
     toggleBeat = (index: number) => {
         this.beats[index] = !this.beats[index];
     } 
+}
+
+export class AudioPlayer {
+    sampleURLs: string[];
+    audios: HTMLAudioElement[] = [];
+    pattern: Pattern;
+    audioInterval: NodeJS.Timeout | null = null;
+
+    constructor(sampleURLs: string[], pattern: Pattern){
+        this.sampleURLs = sampleURLs;
+        console.log(sampleURLs);
+        console.log(this.sampleURLs[0])
+        // for (const sampleURL of this.sampleURLs){
+        // for (let index = 0; index < this.sampleURLs.length; index++) {
+        //     console.log(sampleURLs[index])
+        //     // this.audios.push(new Audio(sampleURL));
+        // }
+        this.pattern = pattern;
+    }
+
+    playAudio = () => {
+        for (const sample of this.audios){
+            console.log(this.pattern)
+            sample.play();
+            // audios
+        }
+    }
+
+
 }

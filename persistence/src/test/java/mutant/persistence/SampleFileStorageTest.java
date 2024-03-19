@@ -37,4 +37,12 @@ public class SampleFileStorageTest {
 
         assertNotNull(b64File);
     }
+
+    @Test
+    public void load_file_with_id_1(){
+        ISampleStorage storage = new SampleFileStorage();
+        String b64File = storage.getAudioData("1");
+
+        assertNotNull(b64File);
+    }
 }

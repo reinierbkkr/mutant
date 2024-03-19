@@ -1,4 +1,4 @@
-export async function fetchSample(id: number) {
+export async function fetchSample(id: string) {
     // const path = `api/sample?id=${id}`
     // console.log(path)
     const response = await fetch(`api/sample?id=${id}`, {
@@ -10,7 +10,8 @@ export async function fetchSample(id: number) {
 
     if (response.ok) {
         const base64String = await response.text();
-        return base64ToBlob(base64String);
+        const blob = base64ToBlob(base64String);
+        return URL.createObjectURL(blob);
     } else {
         return {
             statusCode: response.status,
