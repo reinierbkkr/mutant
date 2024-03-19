@@ -1,26 +1,27 @@
 <script setup lang="ts">
-    import { Track } from "./track.ts";
+    import { Track } from "./classes";
+    import BeatButton from "./BeatButton.vue";
     
-    const props = defineProps<{track: Track}>();
+    const props = defineProps<{
+      track: Track;
+      trackIndex: number
+    }>();
 
-    console.log(props.track.beats)
+    // console.log(props.track.beats)
 
 </script>
 
 <template>
-    <div>{{ track.sample }}</div>
-    <div v-for="beat in track.beats">{{ beat }}</div>
+    <div>
+      <span>{{ track.sampleId }}</span>
+      <BeatButton v-for="(beat, index) in track.beats" :trackIndex="trackIndex" :active="beat" :index="index" />
+    </div>
 </template>
 
 <style scoped>
-button {
+span {
   display: block;
-  margin: 2rem auto 2rem;
-}
-
-#message {
-  display: block;
-  margin: 2rem auto 2rem;
+  margin: 1rem auto;
   text-align: center;
 }
 </style>

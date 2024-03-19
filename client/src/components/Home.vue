@@ -1,12 +1,12 @@
 <script setup lang="ts">
-    import Pattern from './Pattern.vue';
+    import PatternView from './PatternView.vue';
 // import PlayAudioButton from './PlayAudioButton.vue'
 // import BETestButtons from './BETestButtons.vue'
 </script>
 
 <template>
     <div>
-        <Pattern />
+        <PatternView />
     </div>
 </template>
 
@@ -17,4 +17,4 @@ div {
     border-color: var(--vt-c-divider-dark-1); 
     padding: 2rem;
     }
-</style>
+</style>./PatternView.vue
