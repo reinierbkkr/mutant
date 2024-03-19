@@ -11,9 +11,5 @@ export const usePatternStore = defineStore('patternStore', () => {
     samples[i] = currentPattern.value.tracks[i].sampleId;
   }
   
-  function toggleBeat(trackIndex: number, index:number){
-    currentPattern.value.toggleBeat(trackIndex, index);
-  }
-  
-  return { currentPattern, toggleBeat };
+  return { currentPattern };
 })

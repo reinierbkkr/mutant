@@ -2,7 +2,7 @@
     import { usePatternStore } from '@/stores/stores';
     import { computed } from 'vue';
 
-    const { currentPattern, toggleBeat } = usePatternStore();
+    const { currentPattern } = usePatternStore();
 
     const props = defineProps<{
       trackIndex: number;
@@ -12,7 +12,7 @@
     const active = computed(() => currentPattern.isBeatActive(props.trackIndex, props.index));
 
     function handleClick(){
-        toggleBeat(props.trackIndex, props.index);
+        currentPattern.toggleBeat(props.trackIndex, props.index);
     }
 
 </script>

@@ -15,8 +15,8 @@ export class Pattern {
         return this.tracks.length;
     }
 
-    getTrackN = (n: number) => {
-        return this.tracks[n];
+    getTrackN = (index: number) => {
+        return this.tracks[index];
     }
 
     isBeatActive = (trackIndex: number, index: number) => {
@@ -44,8 +44,6 @@ export class Track {
     }
 
     toggleBeat = (index: number) => {
-        console.log(this.beats)
         this.beats[index] = !this.beats[index];
-        console.log(this.beats)
     } 
 }
