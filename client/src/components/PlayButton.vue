@@ -1,13 +1,10 @@
 <script setup lang="ts">
     import { usePatternStore } from '@/stores/stores';
 
-    // import { ref } from 'vue'
-    // import { fetchSample } from './api';
-    
-    // let sampleURL = ref("");
-    
-    // const playing = ref(false)
-    // let audioInterval: NodeJS.Timeout | null;
+    import { ref } from 'vue'
+        
+    const playing = ref(false)
+    let audioInterval: NodeJS.Timeout | null;
 
     // function toggle() {
     //     console.log(new Date(Date.now()).toISOString())
@@ -26,9 +23,6 @@
     // const { audioPlayer } = usePatternStore();
 
     function playAudio(){
-        // console.log(usePatternStore().audioPlayer)
-        // console.log(usePatternStore().loading)
-        console.log('play audio clicked')
         if (usePatternStore().audioPlayer) {
             usePatternStore().audioPlayer?.playAudio();
         }

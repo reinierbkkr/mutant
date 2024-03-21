@@ -58,27 +58,22 @@ export class Track {
 
 export class AudioPlayer {
     sampleURLs: string[];
-    audios: HTMLAudioElement[] = [];
+    loadedSamples: HTMLAudioElement[] = [];
     pattern: Pattern;
     audioInterval: NodeJS.Timeout | null = null;
 
     constructor(sampleURLs: string[], pattern: Pattern){
         this.sampleURLs = sampleURLs;
-        // console.log(sampleURLs);
-        // console.log(this.sampleURLs[0])
         this.pattern = pattern;
-        for (const sampleURL of this.sampleURLs){
         for (let index = 0; index < this.sampleURLs.length; index++) {
-            console.log("doing audiopush into array" + sampleURLs[index])
-            this.audios.push(new Audio(sampleURL));
-            }
+            // console.log("doing audiopush into array" + sampleURLs[index])
+            this.loadedSamples.push(new Audio(sampleURLs[index]));
         }
     }
-
+    
     playAudio = () => {
-        console.log('playing')
-
-        for (const sample of this.audios){
+        for (const sample of this.loadedSamples){
+            console.log('playing')
             sample.play();
         }
     }

@@ -9,6 +9,7 @@ export const usePatternStore = defineStore('patternStore', () => {
   const samples: string[] = [];
   let loading = ref<boolean>(true);
   let audioPlayer = ref<AudioPlayer | null>(null);
+  let playing = ref(true);
 
   (async () => {
     for (const sampleId of currentPattern.value.getSampleIds()) {
