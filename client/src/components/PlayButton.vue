@@ -27,8 +27,11 @@
 
     function playAudio(){
         // console.log(usePatternStore().audioPlayer)
-        console.log(usePatternStore().loading)
-        // audioPlayer.playAudio;
+        // console.log(usePatternStore().loading)
+        console.log('play audio clicked')
+        if (usePatternStore().audioPlayer) {
+            usePatternStore().audioPlayer?.playAudio();
+        }
     }
 </script>
 

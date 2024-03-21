@@ -64,21 +64,22 @@ export class AudioPlayer {
 
     constructor(sampleURLs: string[], pattern: Pattern){
         this.sampleURLs = sampleURLs;
-        console.log(sampleURLs);
-        console.log(this.sampleURLs[0])
-        // for (const sampleURL of this.sampleURLs){
-        // for (let index = 0; index < this.sampleURLs.length; index++) {
-        //     console.log(sampleURLs[index])
-        //     // this.audios.push(new Audio(sampleURL));
-        // }
+        // console.log(sampleURLs);
+        // console.log(this.sampleURLs[0])
         this.pattern = pattern;
+        for (const sampleURL of this.sampleURLs){
+        for (let index = 0; index < this.sampleURLs.length; index++) {
+            console.log("doing audiopush into array" + sampleURLs[index])
+            this.audios.push(new Audio(sampleURL));
+            }
+        }
     }
 
     playAudio = () => {
+        console.log('playing')
+
         for (const sample of this.audios){
-            console.log(this.pattern)
             sample.play();
-            // audios
         }
     }
 
