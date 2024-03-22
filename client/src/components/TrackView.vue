@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { Track } from "./classes";
     import BeatButton from "./BeatButton.vue";
+
     
     const props = defineProps<{
       track: Track;

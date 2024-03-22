@@ -2,17 +2,17 @@
     import { usePatternStore } from '@/stores/stores';
     import { computed } from 'vue';
 
-    const { currentPattern } = usePatternStore();
+    // const { currentPattern } = usePatternStore();
 
     const props = defineProps<{
       trackIndex: number;
       index: number;
     }>();
 
-    const active = computed(() => currentPattern.isBeatActive(props.trackIndex, props.index));
+    const active = computed(() => usePatternStore().pattern.isBeatActive(props.trackIndex, props.index));
 
     function handleClick(){
-        currentPattern.toggleBeat(props.trackIndex, props.index);
+        usePatternStore().pattern.toggleBeat(props.trackIndex, props.index);
     }
 
 </script>

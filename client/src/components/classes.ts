@@ -63,7 +63,7 @@ export class AudioPlayer {
     loadedSamples: HTMLAudioElement[][] = [];
     pattern: Pattern;
     audioInterval: NodeJS.Timeout | null = null;
-    playing = ref<boolean>(false);
+    playing = false;
     count = 0;
 
     constructor(sampleURLs: string[], pattern: Pattern){
@@ -94,8 +94,10 @@ export class AudioPlayer {
     }
 
     togglePlay = () => {    
-        this.playing.value = !this.playing.value;
-        if (this.playing.value) {
+        console.log("player toggleplay called")
+
+        this.playing = !this.playing;
+        if (this.playing) {
             this.playAudio;
             this.audioInterval = setInterval(this.playAudio, 200);
         } else {

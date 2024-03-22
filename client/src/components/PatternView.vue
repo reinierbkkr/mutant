@@ -1,19 +1,20 @@
 <script setup lang="ts">
     // import { Pattern } from "./classes";
     import PlayButton from "./PlayButton.vue";
+
     import TrackView from "./TrackView.vue";
     import { usePatternStore } from '@/stores/stores';
 
     const store = usePatternStore();
-    const { currentPattern } = store;
+    // const { pattern } = store;
 
 </script>
 
 <template>
-    <div>{{ currentPattern.name }}</div>
+    <div>{{ usePatternStore().pattern.name }}</div>
     <PlayButton />
     <div class="container">
-      <TrackView v-for="(track, index) of currentPattern.tracks" :track="track" :trackIndex="index" />
+      <TrackView v-for="(track, index) of usePatternStore().pattern.tracks" :track="track" :trackIndex="index" />
     </div>
 </template>
 
