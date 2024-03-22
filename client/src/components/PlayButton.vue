@@ -22,16 +22,16 @@
 
     // const { audioPlayer } = usePatternStore();
 
-    function playAudio(){
+    function togglePlay(){
         if (usePatternStore().audioPlayer) {
-            usePatternStore().audioPlayer?.playAudio();
+            usePatternStore().audioPlayer?.togglePlay();
         }
     }
 </script>
 
 <template>
     <span>{{ usePatternStore().loading?"loading":"done" }}</span>
-    <button @click="playAudio">play</button>
+    <button @click="togglePlay">play</button>
     <!-- <button @click="toggle" :disabled='sampleURL?false:true'>{{ playing ? "stop" : "play"}}</button> -->
 </template>
 

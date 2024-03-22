@@ -1,11 +1,13 @@
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
 
 export class Pattern {
     name: string = "";
     tracks: Track[] = [];
+    length: number;
 
     constructor(name: string, samples: string[], length: number) {
         this.name = name;
+        this.length = length;
         for (let i = 0; i < samples.length; i++) {
             this.tracks[i] = new Track(samples[i], length)
         }
@@ -61,6 +63,8 @@ export class AudioPlayer {
     loadedSamples: HTMLAudioElement[] = [];
     pattern: Pattern;
     audioInterval: NodeJS.Timeout | null = null;
+    playing = ref(false)
+    count = 0;
 
     constructor(sampleURLs: string[], pattern: Pattern){
         this.sampleURLs = sampleURLs;
@@ -70,13 +74,27 @@ export class AudioPlayer {
             this.loadedSamples.push(new Audio(sampleURLs[index]));
         }
     }
-    
+
     playAudio = () => {
-        for (const sample of this.loadedSamples){
-            console.log('playing')
-            sample.play();
-        }
+        console.log()
+        const beat = this.pattern.getTrackN(0).beats[this.count];
+        console.log(`${new Date(Date.now()).toISOString()}: beat ${this.count} ${beat?"plays":"doesn't play"}`)
+        this.count = (this.count === this.pattern.length -1) 
+            ? 0 
+            : this.count+1;
     }
 
-
+    togglePlay = () => {    
+        this.playing.value = !this.playing.value;
+        if (this.playing.value) {
+            this.playAudio;
+            this.audioInterval = setInterval(this.playAudio, 200);
+        } else {
+            if (this.audioInterval !== null) {
+                clearInterval(this.audioInterval);
+                this.audioInterval = null;
+                this.count = 0;
+            }
+        }
+    }
 }
