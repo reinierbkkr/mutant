@@ -6,33 +6,18 @@
     const playing = ref(false)
     let audioInterval: NodeJS.Timeout | null;
 
-    // function toggle() {
-    //     console.log(new Date(Date.now()).toISOString())
-    //     playing.value = !playing.value;
-    //     if (playing.value) {
-    //         playAudio();
-    //         audioInterval = setInterval(playAudio, 1000);
-    //     } else {
-    //         if (audioInterval !== null) {
-    //             clearInterval(audioInterval);
-    //             audioInterval = null;
-    //         }
-    //     }
-    // }
-
-    // const { audioPlayer } = usePatternStore();
-
     function togglePlay(){
-        if (usePatternStore().audioPlayer) {
-            usePatternStore().audioPlayer?.togglePlay();
-        }
+        usePatternStore().audioPlayer?.togglePlay();
     }
 </script>
 
 <template>
-    <span>{{ usePatternStore().loading?"loading":"done" }}</span>
-    <button @click="togglePlay">play</button>
-    <!-- <button @click="toggle" :disabled='sampleURL?false:true'>{{ playing ? "stop" : "play"}}</button> -->
+    <button 
+        @click="togglePlay" 
+        :disabled='usePatternStore().loading?true:false'
+    >
+        {{ usePatternStore().audioPlayer?.playing ? "stop" : "play"}}
+    </button>
 </template>
 
 <style scoped>

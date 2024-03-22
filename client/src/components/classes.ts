@@ -60,25 +60,34 @@ export class Track {
 
 export class AudioPlayer {
     sampleURLs: string[];
-    loadedSamples: HTMLAudioElement[] = [];
+    loadedSamples: HTMLAudioElement[][] = [];
     pattern: Pattern;
     audioInterval: NodeJS.Timeout | null = null;
-    playing = ref(false)
+    playing = ref<boolean>(false);
     count = 0;
 
     constructor(sampleURLs: string[], pattern: Pattern){
         this.sampleURLs = sampleURLs;
         this.pattern = pattern;
         for (let index = 0; index < this.sampleURLs.length; index++) {
-            // console.log("doing audiopush into array" + sampleURLs[index])
-            this.loadedSamples.push(new Audio(sampleURLs[index]));
+            this.loadedSamples.push([])
+            for (let i = 0; i < this.pattern.length; i++) {
+                this.loadedSamples[index].push(new Audio(sampleURLs[index]));   
+            }
         }
     }
 
     playAudio = () => {
-        console.log()
-        const beat = this.pattern.getTrackN(0).beats[this.count];
-        console.log(`${new Date(Date.now()).toISOString()}: beat ${this.count} ${beat?"plays":"doesn't play"}`)
+        for (let track = 0; track < this.pattern.getNOfTracks(); track++) {
+            const beat = this.pattern.getTrackN(track).beats[this.count];
+            // console.log(`${new Date(Date.now()).toISOString()}: sample ${track} on beat ${this.count} ${beat?"plays":"doesn't play"}`)
+
+            if (this.pattern.isBeatActive(track, this.count)) {
+                this.loadedSamples[track][this.count].play();
+                // console.log(this.sampleURLs[track])
+            }
+        }
+
         this.count = (this.count === this.pattern.length -1) 
             ? 0 
             : this.count+1;
@@ -90,11 +99,15 @@ export class AudioPlayer {
             this.playAudio;
             this.audioInterval = setInterval(this.playAudio, 200);
         } else {
-            if (this.audioInterval !== null) {
-                clearInterval(this.audioInterval);
-                this.audioInterval = null;
-                this.count = 0;
-            }
+            this.stop();
+        }
+    }
+
+    private stop() {
+        if (this.audioInterval !== null) {
+            clearInterval(this.audioInterval);
+            this.audioInterval = null;
+            this.count = 0;
         }
     }
 }

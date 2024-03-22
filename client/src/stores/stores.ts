@@ -10,6 +10,7 @@ export const usePatternStore = defineStore('patternStore', () => {
   let loading = ref<boolean>(true);
   let audioPlayer = ref<AudioPlayer | null>(null);
   let playing = ref(true);
+  let bpm = 120;
 
   (async () => {
     for (const sampleId of currentPattern.value.getSampleIds()) {

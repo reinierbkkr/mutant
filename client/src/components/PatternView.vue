@@ -13,7 +13,7 @@
     <div>{{ currentPattern.name }}</div>
     <PlayButton />
     <div class="container">
-      <TrackView v-for="(track, index) in currentPattern.tracks" :track="track" :trackIndex="index" />
+      <TrackView v-for="(track, index) of currentPattern.tracks" :track="track" :trackIndex="index" />
     </div>
 </template>
 
@@ -23,4 +23,4 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-</style>./classes
+</style>
