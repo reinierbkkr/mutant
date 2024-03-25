@@ -1,4 +1,4 @@
-[![pipeline status](https://git.sogyo.nl/rbakker/hexagon-sun/badges/main/pipeline.svg)][![coverage report](https://git.sogyo.nl/rbakker/hexagon-sun/badges/main/coverage.svg)]
+[![pipeline status](https://git.sogyo.nl/rbakker/hexagon-sun/badges/main/pipeline.svg)](https://git.sogyo.nl/rbakker/hexagon-sun/-/commits/main)[![coverage report](https://git.sogyo.nl/rbakker/hexagon-sun/badges/main/coverage.svg)](https://git.sogyo.nl/rbakker/hexagon-sun/-/commits/main)
 
 ## Mutant
 
