@@ -1,3 +1,5 @@
+[![pipeline status](https://git.sogyo.nl/rbakker/hexagon-sun/badges/main/pipeline.svg)][![coverage report](https://git.sogyo.nl/rbakker/hexagon-sun/badges/main/coverage.svg)]
+
 ## Mutant
 
 A drum machine.
