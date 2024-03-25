@@ -1,4 +1,4 @@
-import { Pattern } from './classes';
+import { Pattern, type IPattern } from './classes';
 
 export async function fetchSample(id: string) {
     // const path = `api/sample?id=${id}`
@@ -33,9 +33,9 @@ function base64ToBlob(base64String: string): Blob {
 }
 
 export async function storePattern(pattern: Pattern) {
-    console.log(JSON.stringify({
-        pattern
-    }))
+    // console.log(JSON.stringify({
+    //     pattern
+    // }))
     const response = await fetch("api/store", {
         method: "POST",
         headers: {
@@ -46,6 +46,27 @@ export async function storePattern(pattern: Pattern) {
     });
 
     if (!response.ok) {
+        return {
+            statusCode: response.status,
+            statusText: response.statusText
+        };
+    }
+}
+
+export async function fetchPattern(name: string) {
+    // const path = `api/sample?id=${id}`
+    // console.log(path)
+    const response = await fetch(`api/store?name=${name}`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json"
+        },
+    });
+
+    if (response.ok) {
+        const pattern = await response.json();
+        return Pattern.createWithJson(pattern as IPattern);
+    } else {
         return {
             statusCode: response.status,
             statusText: response.statusText

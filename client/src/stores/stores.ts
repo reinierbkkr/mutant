@@ -1,10 +1,11 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
-import { Pattern } from '@/components/classes';
-import { fetchSample, storePattern } from '@/components/api';
+import { type IPattern, Pattern, type ITrack, Track } from '@/components/classes';
+import { fetchSample, storePattern, fetchPattern } from '@/components/api';
+import type { I } from 'vitest/dist/reporters-MmQN-57K.js';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
-  const pattern = new Pattern("dnb",["0","1"],16)
+  let pattern = new Pattern("dnb",["0","1"],16)
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -72,6 +73,14 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     storePattern(pattern);
   }
 
-  return { pattern, loading, playing, togglePlay, savePattern }
+  const loadPattern = async (name: string) => {
+    const fetchedPattern = await fetchPattern(name);
+    if (fetchedPattern instanceof Pattern) {
+      pattern = fetchedPattern;
+    }
+    console.log(pattern);
+  }
+
+  return { pattern, loading, playing, togglePlay, savePattern, loadPattern }
 
 })
