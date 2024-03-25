@@ -5,7 +5,7 @@
     import TrackView from "./TrackView.vue";
     import { usePatternStore } from '@/stores/stores';
 
-    const store = usePatternStore();
+    // const store = usePatternStore();
     // const { pattern } = store;
 
 </script>
