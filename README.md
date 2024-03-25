@@ -23,29 +23,30 @@ npm run dev
 ## MoSCoW
 
 **Musts**
-- Vite/Vue frontend, pleasing to the eye
-- Play multiple sequenced audio samples according to programmed pattern
-- A clickable interface to program a beat
-- Retrieve audio samples from back-end
-- Store and retrieve a pattern in a database
+- [ ] Vite/Vue frontend, pleasing to the eye
+- [x] Play multiple sequenced audio samples according to programmed pattern
+- [x] A clickable interface to program a beat
+- [x] Retrieve audio samples from back-end
+- [ ] Store and retrieve a pattern in a database
 
 **Shoulds**
-- Loop the beat
-- Make the BPM changeable
-- Release on remote server
-- User can load samples
+- [x] Loop the beat
+- [ ] Make the BPM changeable
+- [x] Release on remote server
+- [ ] User can choose available samples
 
 **Coulds**
-- Make an algorithm to generate beat patterns in the backend 
-- Edit live
-- Responsive design
-- Make audio file of beat
-- Make a bar that moves over the programmed pattern
+- [ ] Make an algorithm to generate beat patterns in the backend 
+- [x] Edit live
+- [ ] Responsive design
+- [ ] Make audio file of beat
+- [ ] Make a bar that moves over the programmed pattern
 
 **Woulds**
-- Automatic deploy to remote server
-- Live tempo change
-- User login system to store users patterns
+- [ ] Automatic deploy to remote server
+- [ ] Live tempo change
+- [ ] User login system to store users patterns
+- [ ] User can upload samples
 
 ## Technical learning goals
 
