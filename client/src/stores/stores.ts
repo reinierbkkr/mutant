@@ -1,7 +1,7 @@
 import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { Pattern } from '@/components/classes';
-import { fetchSample } from '@/components/api';
+import { fetchSample, storePattern } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
   const pattern = new Pattern("dnb",["0","1"],16)
@@ -68,6 +68,10 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     }
   }
 
-  return { pattern, loading, playing, togglePlay }
+  const savePattern = () => {
+    storePattern(pattern);
+  }
+
+  return { pattern, loading, playing, togglePlay, savePattern }
 
 })

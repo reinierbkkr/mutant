@@ -6,19 +6,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class StorageController {
-    IStorage storage = new Storage();
+    IPatternStorage storage = new PatternStorage();
 
     @GetMapping("/store")
     public String getStoredItem(@RequestParam String key){
         System.out.println("Received GET request at /store");
-        String item = storage.getStoredItem(key);
-        return item;
+//        String item = storage.getStoredPattern(key);
+//        return item;
+        return "hi";
     }
 
     @PostMapping("/store")
-    public void storeItem(@RequestBody StoreDTO storeDTO){
+    public void storePattern(@RequestBody PatternDTO patternDTO){
         System.out.println("Received POST request at /store");
-        storage.storeItem(storeDTO.getKey(), storeDTO.getObject());
+        System.out.println();
+        storage.storePattern(patternDTO.getPattern().getName(), patternDTO.getPattern());
+
     }
 
 }
