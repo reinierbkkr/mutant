@@ -36,22 +36,19 @@ export async function storePattern(pattern: Pattern) {
     console.log(JSON.stringify({
         pattern
     }))
-    // const response = await fetch("api/store", {
-    //     method: "POST",
-    //     headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         key: pattern.name,
-    //         object: pattern
-    //     }),
-    // });
+    const response = await fetch("api/store", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pattern),
+    });
 
-    // if (!response.ok) {
-    //     return {
-    //         statusCode: response.status,
-    //         statusText: response.statusText
-    //     };
-    // }
+    if (!response.ok) {
+        return {
+            statusCode: response.status,
+            statusText: response.statusText
+        };
+    }
 }
