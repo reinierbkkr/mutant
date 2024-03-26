@@ -1,5 +1,6 @@
 <script setup lang="ts">
     // import { Pattern } from "./classes";
+    import Name from './Name.vue';
     import PlayButton from "./PlayButton.vue";
     import SaveButton from "./SaveButton.vue";
     import TrackView from "./TrackView.vue";
@@ -12,7 +13,7 @@
 </script>
 
 <template>
-    <div>{{ usePatternStore().pattern.name }}</div>
+    <Name />
     <PlayButton />
     <div class="container">
       <TrackView v-for="(track, index) of usePatternStore().pattern.tracks" :track="track" :trackIndex="index" />

@@ -1,7 +1,7 @@
-import { ref, reactive } from "vue";
+import { ref, reactive, type Ref } from "vue";
 
 export class Pattern {
-    name: string = "";
+    name = "";
     tracks: Track[] = [];
     length: number = 0;
 

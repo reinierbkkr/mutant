@@ -1,6 +1,6 @@
-import { ref, computed, reactive } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { type IPattern, Pattern, type ITrack, Track } from '@/components/classes';
+import { Pattern } from '@/components/classes';
 import { fetchSample, storePattern, fetchPattern } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
