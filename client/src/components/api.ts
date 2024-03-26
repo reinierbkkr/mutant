@@ -65,6 +65,7 @@ export async function fetchPattern(name: string) {
 
     if (response.ok) {
         const pattern = await response.json();
+        console.log(pattern);
         return Pattern.createWithJson(pattern as IPattern);
     } else {
         return {

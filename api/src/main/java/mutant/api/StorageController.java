@@ -11,8 +11,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @RestController
 @RequestMapping("/api")
 public class StorageController {
-    IPatternStorage storage = new PatternStorage();
-
+    IPatternStorage storage = new SQLitePatternStorage("database.db");
 //    @GetMapping("/store")
 //    public String getStoredItem(@RequestParam String key){
 //        System.out.println("Received GET request at /store");
@@ -28,7 +27,7 @@ public class StorageController {
     }
 
     @GetMapping("/store")
-    public Pattern getPatternList(@RequestParam String name) {
+    public Pattern getPattern(@RequestParam String name) {
         System.out.println("Received get request at /store for pattern " + name);
         return storage.getStoredPattern(name);
     }

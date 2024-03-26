@@ -14,4 +14,6 @@ public class PatternStorage implements IPatternStorage {
     public Pattern getStoredPattern(String name) {
         return storage.get(name);
     }
+
+    public String[] getPatternNames() { return null; }
 }
