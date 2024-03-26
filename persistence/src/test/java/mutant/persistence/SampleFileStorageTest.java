@@ -19,7 +19,7 @@ public class SampleFileStorageTest {
     public void make_string_from_sample_test() {
         try {
             ISampleStorage storage = new SampleFileStorage();
-            byte[] originalFile = Files.readAllBytes(Paths.get("samples/LegoweltSnare001.wav"));
+            byte[] originalFile = Files.readAllBytes(Paths.get("samples/LegoweltBasedrum001.wav"));
 
             String audioFileString = storage.getAudioData("0");
             byte[] convertedFile = decodeB64String(audioFileString);
