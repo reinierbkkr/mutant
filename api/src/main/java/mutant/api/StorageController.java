@@ -1,24 +1,35 @@
 package mutant.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import mutant.persistence.*;
+import mutant.domain.Pattern;
 import org.springframework.web.bind.annotation.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 @RestController
 @RequestMapping("/api")
 public class StorageController {
-    IStorage storage = new Storage();
-
-    @GetMapping("/store")
-    public String getStoredItem(@RequestParam String key){
-        System.out.println("Received GET request at /store");
-        String item = storage.getStoredItem(key);
-        return item;
-    }
+    IPatternStorage storage = new SQLitePatternStorage("database.db");
+//    @GetMapping("/store")
+//    public String getStoredItem(@RequestParam String key){
+//        System.out.println("Received GET request at /store");
+////        String item = storage.getStoredPattern(key);
+////        return item;
+//        return "hi";
+//    }
 
     @PostMapping("/store")
-    public void storeItem(@RequestBody StoreDTO storeDTO){
-        System.out.println("Received POST request at /store");
-        storage.storeItem(storeDTO.getKey(), storeDTO.getObject());
+    public void storePattern(@RequestBody Pattern pattern) {
+        System.out.println("Received POST request at /store. Storing pattern " + pattern.getName());
+        storage.storePattern(pattern.getName(), pattern);
+    }
+
+    @GetMapping("/store")
+    public Pattern getPattern(@RequestParam String name) {
+        System.out.println("Received get request at /store for pattern " + name);
+        return storage.getStoredPattern(name);
     }
 
 }

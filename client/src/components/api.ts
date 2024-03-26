@@ -1,3 +1,5 @@
+import { Pattern, type IPattern } from './classes';
+
 export async function fetchSample(id: string) {
     // const path = `api/sample?id=${id}`
     // console.log(path)
@@ -28,26 +30,22 @@ function base64ToBlob(base64String: string): Blob {
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: "audio/wav" });
-  }
-
-
-export async function fetchMessage(){
-    const response = await fetch("/api/message");
-    const fetchedMessage = await response.text();
-    return fetchedMessage
 }
 
-export async function fetchClickCount() {
-    const response = await fetch("api/store?key=clickCount", {
-        method: "GET",
+export async function storePattern(pattern: Pattern) {
+    // console.log(JSON.stringify({
+    //     pattern
+    // }))
+    const response = await fetch("api/store", {
+        method: "POST",
         headers: {
-            Accept: "application/json"
+            Accept: "application/json",
+            "Content-Type": "application/json",
         },
+        body: JSON.stringify(pattern),
     });
 
-    if (response.ok) {
-        return await response.json();
-    } else {
+    if (!response.ok) {
         return {
             statusCode: response.status,
             statusText: response.statusText
@@ -55,20 +53,21 @@ export async function fetchClickCount() {
     }
 }
 
-export async function storeClickCount(count: number) {
-    const response = await fetch("api/store", {
-        method: "POST",
+export async function fetchPattern(name: string) {
+    // const path = `api/sample?id=${id}`
+    // console.log(path)
+    const response = await fetch(`api/store?name=${name}`, {
+        method: "GET",
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: "application/json"
         },
-        body: JSON.stringify({
-            key: "clickCount",
-            object: count
-        }),
     });
 
-    if (!response.ok) {
+    if (response.ok) {
+        const pattern = await response.json();
+        console.log(pattern);
+        return Pattern.createWithJson(pattern as IPattern);
+    } else {
         return {
             statusCode: response.status,
             statusText: response.statusText
