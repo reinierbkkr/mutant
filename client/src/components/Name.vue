@@ -36,16 +36,18 @@
 
 <template>
     <span>
-        <input type="text"
-            ref="inputField"
-            v-if="edit"
-            :value="name"
-            @keyup.enter="save($event);"
-            @keyup.esc="esc();"
-            @blur="save($event);"
-            />
-        <div v-if="!edit" @click="handleClick">
-            {{ name }}
+        <div>
+            <input type="text"
+                ref="inputField"
+                v-if="edit"
+                :value="name"
+                @keyup.enter="save($event);"
+                @keyup.esc="esc();"
+                @blur="save($event);"
+                />
+            <div v-if="!edit" @click="handleClick">
+                {{ name }}
+            </div>
         </div>
     </span>
 </template>

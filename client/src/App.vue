@@ -12,14 +12,12 @@ data: {
       <img alt="Mutant logo" class="logo" src="@/assets/logo.png" width="75" height="75" />
       <h1>Mutant</h1>
     </div>
-    <div>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-      </nav>
-    </div>
   </header>
-
-  <RouterView />
+  <main>
+    <div class="container">
+      <RouterView />
+    </div>
+  </main>
 </template>
 
 <style scoped>
@@ -46,6 +44,13 @@ h1 {
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 2rem;
+}
+
+.container {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: var(--vt-c-divider-dark-1); 
+  padding: 2rem;
 }
 
 
