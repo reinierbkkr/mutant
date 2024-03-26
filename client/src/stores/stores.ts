@@ -4,7 +4,7 @@ import { Pattern } from '@/components/classes';
 import { fetchSample, storePattern, fetchPattern } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
-  let pattern = ref(new Pattern("dnb",["0","1"],16))
+  let pattern = ref(Pattern.createNew("ad", ["0","1","2","3","4"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -54,7 +54,7 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     playing.value = !playing.value;
     if (playing.value) {
         playAudio;
-        audioInterval = setInterval(playAudio, 200);
+        audioInterval = setInterval(playAudio, 125);
     } else {
         stop();
     }
@@ -77,9 +77,13 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     if (fetchedPattern instanceof Pattern) {
       pattern.value = fetchedPattern;
     }
-    console.log(pattern.value);
+    // console.log(pattern.value);
   }
 
-  return { pattern, loading, playing, togglePlay, savePattern, loadPattern }
+  const setNewPattern = (newPattern: Pattern) => {
+    pattern.value = newPattern;
+  }
+
+  return { pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern }
 
 })

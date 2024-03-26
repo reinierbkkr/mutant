@@ -26,7 +26,6 @@
 <style scoped>
 .container {
   display: flex;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  margin: 0;
 }
 </style>
