@@ -1,10 +1,10 @@
-import { ref, computed, reactive } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { type IPattern, Pattern, type ITrack, Track } from '@/components/classes';
+import { Pattern } from '@/components/classes';
 import { fetchSample, storePattern, fetchPattern } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
-  let pattern = ref(new Pattern("dnb",["0","1"],16))
+  let pattern = ref(Pattern.createNew("ad", ["0","1","2","3","4"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -20,14 +20,12 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
         sampleURLs.push(response);
       }
     }
-    // console.log(sampleURLs)
     for (let index = 0; index < sampleURLs.length; index++) {
       loadedSamples.push([])
-        for (let i = 0; i < pattern.value.length; i++) {
+        for (let i = 0; i < 16; i++) {
           loadedSamples[index].push(new Audio(sampleURLs[index]));   
         }
     }
-    // console.log(loadedSamples)
     loading.value = false;
     console.log('done')
   })();
@@ -35,11 +33,9 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   const playAudio = () => {
     for (let track = 0; track < pattern.value.getNOfTracks(); track++) {
         const beat = pattern.value.getTrackN(track).beats[count];
-        // console.log(`${new Date(Date.now()).toISOString()}: sample ${track} on beat ${this.count} ${beat?"plays":"doesn't play"}`)
 
         if (pattern.value.isBeatActive(track, count)) {
-            loadedSamples[track][count].play();
-            // console.log(this.sampleURLs[track])
+            loadedSamples[track][count%16].play();
         }
     }
 
@@ -49,12 +45,10 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   }
 
   const togglePlay = () => {    
-    console.log("player toggleplay called")
-
     playing.value = !playing.value;
     if (playing.value) {
         playAudio;
-        audioInterval = setInterval(playAudio, 200);
+        audioInterval = setInterval(playAudio, 125);
     } else {
         stop();
     }
@@ -77,9 +71,12 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     if (fetchedPattern instanceof Pattern) {
       pattern.value = fetchedPattern;
     }
-    console.log(pattern.value);
   }
 
-  return { pattern, loading, playing, togglePlay, savePattern, loadPattern }
+  const setNewPattern = (newPattern: Pattern) => {
+    pattern.value = newPattern;
+  }
+
+  return { pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern }
 
 })

@@ -32,7 +32,7 @@ function base64ToBlob(base64String: string): Blob {
     return new Blob([byteArray], { type: "audio/wav" });
 }
 
-export async function storePattern(pattern: Pattern) {
+export async function storePattern(pattern: IPattern) {
     // console.log(JSON.stringify({
     //     pattern
     // }))
@@ -65,7 +65,7 @@ export async function fetchPattern(name: string) {
 
     if (response.ok) {
         const pattern = await response.json();
-        console.log(pattern);
+        // console.log(pattern);
         return Pattern.createWithJson(pattern as IPattern);
     } else {
         return {
