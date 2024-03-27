@@ -2,6 +2,7 @@
     import { ref, onMounted } from 'vue'
     import { usePatternStore } from '@/stores/stores';
     import { Pattern } from '@/components/classes';
+    import router from '@/router/index';
 
     const bars = ref(1);
     const tracks = ref(2);
@@ -21,8 +22,8 @@
             for (let i = 0; i < tracks.value; i++) {
                 samples.push(i.toString());
             }
-            console.log(samples);
             usePatternStore().setNewPattern(Pattern.createNew(name.value, samples, bars.value*16));
+            router.push('/');
         }
 
     }

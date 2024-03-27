@@ -20,14 +20,12 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
         sampleURLs.push(response);
       }
     }
-    // console.log(sampleURLs)
     for (let index = 0; index < sampleURLs.length; index++) {
       loadedSamples.push([])
-        for (let i = 0; i < pattern.value.length; i++) {
+        for (let i = 0; i < 16; i++) {
           loadedSamples[index].push(new Audio(sampleURLs[index]));   
         }
     }
-    // console.log(loadedSamples)
     loading.value = false;
     console.log('done')
   })();
@@ -35,11 +33,9 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   const playAudio = () => {
     for (let track = 0; track < pattern.value.getNOfTracks(); track++) {
         const beat = pattern.value.getTrackN(track).beats[count];
-        // console.log(`${new Date(Date.now()).toISOString()}: sample ${track} on beat ${this.count} ${beat?"plays":"doesn't play"}`)
 
         if (pattern.value.isBeatActive(track, count)) {
-            loadedSamples[track][count].play();
-            // console.log(this.sampleURLs[track])
+            loadedSamples[track][count%16].play();
         }
     }
 
@@ -49,8 +45,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   }
 
   const togglePlay = () => {    
-    console.log("player toggleplay called")
-
     playing.value = !playing.value;
     if (playing.value) {
         playAudio;
@@ -77,7 +71,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     if (fetchedPattern instanceof Pattern) {
       pattern.value = fetchedPattern;
     }
-    // console.log(pattern.value);
   }
 
   const setNewPattern = (newPattern: Pattern) => {
