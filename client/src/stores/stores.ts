@@ -5,7 +5,7 @@ import { fetchSample, storePattern, fetchPattern, fetchSampleList } from '@/comp
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
   let sampleList = ref([""]);
-  let pattern = ref(Pattern.createNew("ad", ["LegoweltBasedrum001","LegoweltSnare010","LegoweltHat1closed","LegoweltClap002"], 4*16))
+  let pattern = ref(Pattern.createNew("new pattern", ["LegoweltBasedrum001","LegoweltSnare010","LegoweltHat1closed","LegoweltClap002"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -21,7 +21,7 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     loading.value = true;
     console.log('loading');
     await loadSampleList();
-    await loadSamples();
+    await loadSampleURLs();
     loadAudioElements();
     loading.value = false;
     console.log('done');
@@ -34,13 +34,36 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     }
   }
 
-  async function loadSamples() {
+  async function loadSampleURLs() {
     for (const sampleId of pattern.value.getSampleIds()) {
-      const response = await fetchSample(sampleId);
-      if (typeof (response) === 'string') {
-        sampleURLs.push(response);
+      const sampleURL = await loadSampleURL(sampleId.value);
+      if (sampleURL) {
+        sampleURLs.push(sampleURL);
       }
     }
+  }
+
+  async function reloadAudioElement(sampleId: string, trackIndex: number){
+    loading.value = true;
+    console.log('loading')
+    const sampleURL = await loadSampleURL(sampleId);
+    if (typeof (sampleURL) === 'string') {
+      pattern.value.getTrackN(trackIndex).sampleId.value = sampleId;
+      sampleURLs[trackIndex] = sampleURL;
+      for (let index = 0; index < 16; index++) {
+        loadedSamples[trackIndex][index] = new Audio(sampleURL);
+      }
+    }
+    loading.value = false;
+    console.log('done')
+  }
+  
+  async function loadSampleURL(sampleId: string){
+    const sampleURL = await fetchSample(sampleId);
+      if (typeof (sampleURL) === 'string') {
+        return sampleURL;
+      }
+      return null;
   }
 
   function loadAudioElements() {
@@ -91,16 +114,18 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   const loadPattern = async (name: string) => {
     const fetchedPattern = await fetchPattern(name);
     if (fetchedPattern instanceof Pattern) {
-      pattern.value = fetchedPattern;
-      fetchAndPrepareAudio();
+      setNewPattern(fetchedPattern);
     }
   }
 
   const setNewPattern = (newPattern: Pattern) => {
+    console.log(pattern.value)
+    console.log("newPattern:")
+    console.log(newPattern)
     pattern.value = newPattern;
     fetchAndPrepareAudio();
   }
 
-  return { sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern }
+  return { sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
 
 })

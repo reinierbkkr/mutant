@@ -18,13 +18,11 @@
         nextTick(() => {
             inputField.value.focus();
         });
-
     }
 
     const save = (event: Event) => {
         const target = event.target as HTMLInputElement;
         usePatternStore().pattern.name = target.value;
-    
         edit.value = false;
     }
 
