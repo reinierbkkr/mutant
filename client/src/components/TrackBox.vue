@@ -7,7 +7,7 @@
       trackIndex: number
     }>();
 
-    const name = computed(() => usePatternStore().pattern.getSampleIds()[props.trackIndex].value)
+    const name = computed(() => usePatternStore().getSampleIdForTrack(props.trackIndex))
     const type = computed(() => {
       let type = name.value;
       if (type.includes("Basedrum") || type.includes("basedrum")) {
@@ -38,9 +38,8 @@
     }
 
     const save = () => {
-      usePatternStore().reloadAudioElement(chosenSample.value,props.trackIndex);
+      usePatternStore().reloadAudioElement(chosenSample.value, props.trackIndex);
       edit.value = false;
-      console.log(usePatternStore().pattern.getSampleIds());
     }
 
 </script>

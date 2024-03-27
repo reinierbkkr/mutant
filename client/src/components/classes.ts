@@ -56,17 +56,17 @@ export class Pattern {
 }
 
 export class Track {
-    sampleId = ref("");
+    sampleId = "";
     beats: boolean[] = reactive([]);
 
     constructor(sample?: string, length?: number, json?: ITrack) {
         if (!json && sample && length) {
-            this.sampleId.value = sample;
+            this.sampleId = sample;
             for (let i = 0; i < length; i++) {
                 this.beats.push(false);
             }
         } else if (json && !sample && !length) {
-            this.sampleId.value = json.sampleId;
+            this.sampleId = json.sampleId;
             for (const beat of json.beats){
                 this.beats.push(beat);
             }

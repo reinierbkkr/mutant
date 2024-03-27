@@ -36,7 +36,7 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
 
   async function loadSampleURLs() {
     for (const sampleId of pattern.value.getSampleIds()) {
-      const sampleURL = await loadSampleURL(sampleId.value);
+      const sampleURL = await loadSampleURL(sampleId);
       if (sampleURL) {
         sampleURLs.push(sampleURL);
       }
@@ -46,9 +46,10 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   async function reloadAudioElement(sampleId: string, trackIndex: number){
     loading.value = true;
     console.log('loading')
+    updateSampleIdForTrack(sampleId, trackIndex);
     const sampleURL = await loadSampleURL(sampleId);
     if (typeof (sampleURL) === 'string') {
-      pattern.value.getTrackN(trackIndex).sampleId.value = sampleId;
+      pattern.value.getTrackN(trackIndex).sampleId = sampleId;
       sampleURLs[trackIndex] = sampleURL;
       for (let index = 0; index < 16; index++) {
         loadedSamples[trackIndex][index] = new Audio(sampleURL);
@@ -57,6 +58,12 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     loading.value = false;
     console.log('done')
   }
+
+  const updateSampleIdForTrack = (newSampleId: string, trackIndex: number) => {
+    pattern.value.tracks[trackIndex].sampleId = newSampleId;
+  }
+
+  const getSampleIdForTrack = (trackIndex: number) => pattern.value.tracks[trackIndex].sampleId;
   
   async function loadSampleURL(sampleId: string){
     const sampleURL = await fetchSample(sampleId);
@@ -126,6 +133,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     fetchAndPrepareAudio();
   }
 
-  return { sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
+  return { getSampleIdForTrack, updateSampleIdForTrack, sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
 
 })
