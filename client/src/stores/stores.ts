@@ -1,9 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Pattern } from '@/components/classes';
-import { fetchSample, storePattern, fetchPattern } from '@/components/api';
+import { fetchSample, storePattern, fetchPattern, fetchSampleList } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
+  let sampleList = ref([""]);
   let pattern = ref(Pattern.createNew("ad", ["LegoweltBasedrum001","LegoweltSnare010","LegoweltHat1closed","LegoweltClap002"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
@@ -17,14 +18,23 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   })();
 
   async function fetchAndPrepareAudio() {
+    loading.value = true;
     console.log('loading');
-    await fetchSamples();
+    await loadSampleList();
+    await loadSamples();
     loadAudioElements();
     loading.value = false;
     console.log('done');
   }
 
-  async function fetchSamples() {
+  async function loadSampleList() {
+    const fetchedSampleList = await fetchSampleList();
+    if (Array.isArray(fetchedSampleList)){
+      sampleList.value = fetchedSampleList;
+    }
+  }
+
+  async function loadSamples() {
     for (const sampleId of pattern.value.getSampleIds()) {
       const response = await fetchSample(sampleId);
       if (typeof (response) === 'string') {
@@ -80,7 +90,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
 
   const loadPattern = async (name: string) => {
     const fetchedPattern = await fetchPattern(name);
-    // console.log(fetchedPattern);
     if (fetchedPattern instanceof Pattern) {
       pattern.value = fetchedPattern;
       fetchAndPrepareAudio();
@@ -89,8 +98,9 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
 
   const setNewPattern = (newPattern: Pattern) => {
     pattern.value = newPattern;
+    fetchAndPrepareAudio();
   }
 
-  return { pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern }
+  return { sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern }
 
 })

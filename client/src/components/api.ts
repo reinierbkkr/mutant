@@ -33,9 +33,6 @@ function base64ToBlob(base64String: string): Blob {
 }
 
 export async function storePattern(pattern: IPattern) {
-    // console.log(JSON.stringify({
-    //     pattern
-    // }))
     const response = await fetch("api/store", {
         method: "POST",
         headers: {
@@ -54,8 +51,6 @@ export async function storePattern(pattern: IPattern) {
 }
 
 export async function fetchPattern(name: string) {
-    // const path = `api/sample?id=${id}`
-    // console.log(path)
     const response = await fetch(`api/store?name=${name}`, {
         method: "GET",
         headers: {
@@ -65,8 +60,26 @@ export async function fetchPattern(name: string) {
 
     if (response.ok) {
         const pattern = await response.json();
-        console.log(pattern);
         return Pattern.createWithJson(pattern as IPattern);
+    } else {
+        return {
+            statusCode: response.status,
+            statusText: response.statusText
+        };
+    }
+}
+
+export async function fetchSampleList() {
+    const response = await fetch(`api/allsamples`, {
+        method: "GET",
+        headers: {
+            Accept: "application/json"
+        },
+    });
+
+    if (response.ok) {
+        const sampleList = await response.json();
+        return sampleList as string[];
     } else {
         return {
             statusCode: response.status,
