@@ -18,11 +18,13 @@
 </script>
 
 <template>
-    <button @click="handleClick" :class="active?'active':'inactive'"></button>
+    <button @click="handleClick" :class="[
+        active?'active':'inactive',
+        (props.index+1)%16===0?'thickborder':
+            (props.index+1)%4===0?'thinborder':'noborder']" />
 </template>
 
 <style scoped>
-
 button {
   display: block;
   margin: 0.2rem auto;
@@ -33,6 +35,12 @@ button {
   /* border-style: solid;
   border-radius: 30%; */
   /* {"border-neutral-100": !hasTurn} */
+}
+.thinborder{
+    border-bottom: 1px solid #2372a0;
+}
+.thickborder{
+    border-bottom: 3px solid #2372a0;
 }
 .active {
     background-color: #0c4a6e;

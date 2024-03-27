@@ -1,3 +1,5 @@
+import { Pattern, type IPattern } from './classes';
+
 export async function fetchSample(id: string) {
     // const path = `api/sample?id=${id}`
     // console.log(path)
@@ -28,17 +30,28 @@ function base64ToBlob(base64String: string): Blob {
     }
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: "audio/wav" });
-  }
-
-
-export async function fetchMessage(){
-    const response = await fetch("/api/message");
-    const fetchedMessage = await response.text();
-    return fetchedMessage
 }
 
-export async function fetchClickCount() {
-    const response = await fetch("api/store?key=clickCount", {
+export async function storePattern(pattern: IPattern) {
+    const response = await fetch("api/store", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pattern),
+    });
+
+    if (!response.ok) {
+        return {
+            statusCode: response.status,
+            statusText: response.statusText
+        };
+    }
+}
+
+export async function fetchPattern(name: string) {
+    const response = await fetch(`api/store?name=${name}`, {
         method: "GET",
         headers: {
             Accept: "application/json"
@@ -46,7 +59,8 @@ export async function fetchClickCount() {
     });
 
     if (response.ok) {
-        return await response.json();
+        const pattern = await response.json();
+        return Pattern.createWithJson(pattern as IPattern);
     } else {
         return {
             statusCode: response.status,
@@ -55,20 +69,18 @@ export async function fetchClickCount() {
     }
 }
 
-export async function storeClickCount(count: number) {
-    const response = await fetch("api/store", {
-        method: "POST",
+export async function fetchSampleList() {
+    const response = await fetch(`api/allsamples`, {
+        method: "GET",
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
+            Accept: "application/json"
         },
-        body: JSON.stringify({
-            key: "clickCount",
-            object: count
-        }),
     });
 
-    if (!response.ok) {
+    if (response.ok) {
+        const sampleList = await response.json();
+        return sampleList as string[];
+    } else {
         return {
             statusCode: response.status,
             statusText: response.statusText

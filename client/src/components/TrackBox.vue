@@ -1,0 +1,78 @@
+<script setup lang="ts">
+    import BeatButton from "./BeatButton.vue";
+    import { usePatternStore } from "@/stores/stores";
+    import { ref, computed, nextTick } from "vue";
+    
+    const props = defineProps<{
+      trackIndex: number
+    }>();
+
+    const name = computed(() => usePatternStore().getSampleIdForTrack(props.trackIndex))
+    const type = computed(() => {
+      let type = name.value;
+      if (type.includes("Basedrum") || type.includes("basedrum")) {
+        type = "Basedrum"
+      } else if (type.includes("Snare") || type.includes("snare")){
+        type = "Snare"
+      } else if (type.includes("Hat") || type.includes("hat")){
+        type = "Hihat"
+      } else if (type.includes("Clap") || type.includes("clap")){
+        type = "Clap"
+      }
+      return type
+    })
+    
+    const selectBox = ref();
+    const edit = ref(false);
+    const chosenSample = ref("");
+    const handleClick = () => {
+      chosenSample.value = name.value;
+      edit.value = true;
+      nextTick(() => {
+          selectBox.value.focus();
+      });
+    }
+
+    const stop = () => {
+      edit.value = false;
+    }
+
+    const save = () => {
+      usePatternStore().reloadAudioElement(chosenSample.value, props.trackIndex);
+      edit.value = false;
+    }
+
+</script>
+
+<template>
+    <div>
+      <div>{{ type }}</div>
+      <div class="name" v-if="!edit" @click="handleClick">{{ name }}</div>
+        <select v-if="edit" v-model="chosenSample" ref="selectBox"
+            @keyup.esc="stop();"
+            @blur="save()"
+        >
+          <option :value="chosenSample" :key="chosenSample">{{ chosenSample }}</option>
+          <option v-for="sample of usePatternStore().sampleList" v-show="sample !== chosenSample" :value="sample" :key="sample"
+          >{{ sample }}</option>
+        </select>
+
+      <BeatButton 
+        v-for="index in usePatternStore().pattern.length" 
+        :trackIndex="trackIndex" 
+        :active="usePatternStore().pattern.getTrackN(trackIndex).isBeatActive(index-1)" 
+        :index="index-1" />
+    </div>
+</template>
+
+<style scoped>
+.name {
+  font-size: 10px;
+}
+
+span {
+  display: block;
+  margin: 1rem auto;
+  text-align: center;
+}
+</style>
