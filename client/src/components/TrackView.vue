@@ -1,21 +1,36 @@
 <script setup lang="ts">
-    import { Track } from "./classes";
     import BeatButton from "./BeatButton.vue";
-
+    import { usePatternStore } from "@/stores/stores";
+    import { computed } from "vue";
     
     const props = defineProps<{
-      track: Track;
       trackIndex: number
     }>();
 
-    // console.log(props.track.beats)
+    const name = computed(() => {
+            let name = usePatternStore().pattern.getSampleIds()[props.trackIndex];
+            if (name.includes("Basedrum") || name.includes("basedrum")) {
+              name = "Basedrum"
+            } else if (name.includes("Snare") || name.includes("snare")){
+              name = "Snare"
+            } else if (name.includes("Hat") || name.includes("hat")){
+              name = "Hihat"
+            } else if (name.includes("Clap") || name.includes("clap")){
+              name = "Clap"
+            }
+            return name
+        })
 
 </script>
 
 <template>
     <div>
-      <span>{{ track.sampleId }}</span>
-      <BeatButton v-for="(beat, index) in track.beats" :trackIndex="trackIndex" :active="beat" :index="index" />
+      <span>{{ name }}</span>
+      <BeatButton 
+        v-for="index in usePatternStore().pattern.length" 
+        :trackIndex="trackIndex" 
+        :active="usePatternStore().pattern.getTrackN(trackIndex).isBeatActive(index-1)" 
+        :index="index-1" />
     </div>
 </template>
 

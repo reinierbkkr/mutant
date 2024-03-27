@@ -4,7 +4,7 @@ import { Pattern } from '@/components/classes';
 import { fetchSample, storePattern, fetchPattern } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
-  let pattern = ref(Pattern.createNew("ad", ["0","1","2","3","4"], 4*16))
+  let pattern = ref(Pattern.createNew("ad", ["1LegoweltBasedrum001","2LegoweltSnare010","3LegoweltHat1closed","4LegoweltClap002"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -68,6 +68,7 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
 
   const loadPattern = async (name: string) => {
     const fetchedPattern = await fetchPattern(name);
+    // console.log(fetchedPattern);
     if (fetchedPattern instanceof Pattern) {
       pattern.value = fetchedPattern;
     }

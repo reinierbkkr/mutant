@@ -5,28 +5,33 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 
 public class SampleFileStorage implements ISampleStorage {
     private static final String PATH = "./samples/";
+    private static final File DIRECTORY = new File(PATH);
     @Override
     public String getAudioData(String id) {
-        File directoryPath = new File(PATH);
-        String[] contents = directoryPath.list();
-//        System.out.println("Working Directory = " + System.getProperty("user.dir"));
-//        for (int i = 0; i < contents.length; i++) {
-//            System.out.println(contents[i]);
-//        }
-        int idNumber = Integer.parseInt(id);
-        if (idNumber < 0 || idNumber > contents.length-1){
-            System.out.println("invalid id: "+idNumber);
-        } else {
-            String fileName = contents[idNumber];
-            return makeB64String(fileName);
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(PATH+"/"+id+".wav"));
+            return Base64.encodeBase64String(bytes);
+        } catch (IOException e) {
+            System.out.println("error: " + e);
         }
         return null;
+
+    }
+
+    @Override
+    public String[] getSampleNames() {
+        String[] contents = DIRECTORY.list();
+        Arrays.sort(contents);
+        for (int i = 0; i < contents.length; i++) {
+            contents[i] = contents[i].replace(".wav","");
+        }
+        return contents;
     }
 
     @Override
@@ -34,13 +39,13 @@ public class SampleFileStorage implements ISampleStorage {
 
     }
 
-    private static String makeB64String(String fileName){
-        try {
-            byte[] bytes = Files.readAllBytes(Paths.get(PATH+"/"+fileName));
-            return Base64.encodeBase64String(bytes);
-        } catch (IOException e) {
-            System.out.println("error: " + e);
-        }
-        return null;
-    }
+//    private static String makeB64String(byte[] bytes){
+//        try {
+//            byte[] bytes = Files.readAllBytes(Paths.get(PATH+"/"+fileName));
+//            return Base64.encodeBase64String(bytes);
+//        } catch (IOException e) {
+//            System.out.println("error: " + e);
+//        }
+//        return null;
+//    }
 }

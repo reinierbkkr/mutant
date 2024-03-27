@@ -15,6 +15,13 @@ public class SampleStorageController {
         return item;
     }
 
+    @GetMapping("/allsamples")
+    public String[] getSampleNames(){
+        System.out.println("Received GET request at /allsamples");
+        String[] items = storage.getSampleNames();
+        return items;
+    }
+
 //    @PostMapping("/store")
 //    public void storeItem(@RequestBody StoreDTO storeDTO){
 //        System.out.println("Received POST request at /store");
