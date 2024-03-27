@@ -4,7 +4,7 @@ import { Pattern } from '@/components/classes';
 import { fetchSample, storePattern, fetchPattern } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
-  let pattern = ref(Pattern.createNew("ad", ["1LegoweltBasedrum001","2LegoweltSnare010","3LegoweltHat1closed","4LegoweltClap002"], 4*16))
+  let pattern = ref(Pattern.createNew("ad", ["LegoweltBasedrum001","LegoweltSnare010","LegoweltHat1closed","LegoweltClap002"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -13,22 +13,34 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   let count = 0;
 
   (async () => {
-    console.log('loading')
+    await fetchAndPrepareAudio();
+  })();
+
+  async function fetchAndPrepareAudio() {
+    console.log('loading');
+    await fetchSamples();
+    loadAudioElements();
+    loading.value = false;
+    console.log('done');
+  }
+
+  async function fetchSamples() {
     for (const sampleId of pattern.value.getSampleIds()) {
       const response = await fetchSample(sampleId);
-      if (typeof (response) === 'string'){
+      if (typeof (response) === 'string') {
         sampleURLs.push(response);
       }
     }
+  }
+
+  function loadAudioElements() {
     for (let index = 0; index < sampleURLs.length; index++) {
-      loadedSamples.push([])
-        for (let i = 0; i < 16; i++) {
-          loadedSamples[index].push(new Audio(sampleURLs[index]));   
-        }
+      loadedSamples.push([]);
+      for (let i = 0; i < 16; i++) {
+        loadedSamples[index].push(new Audio(sampleURLs[index]));
+      }
     }
-    loading.value = false;
-    console.log('done')
-  })();
+  }
 
   const playAudio = () => {
     for (let track = 0; track < pattern.value.getNOfTracks(); track++) {
@@ -71,6 +83,7 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     // console.log(fetchedPattern);
     if (fetchedPattern instanceof Pattern) {
       pattern.value = fetchedPattern;
+      fetchAndPrepareAudio();
     }
   }
 

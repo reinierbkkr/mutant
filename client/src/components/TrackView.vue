@@ -7,25 +7,27 @@
       trackIndex: number
     }>();
 
-    const name = computed(() => {
-            let name = usePatternStore().pattern.getSampleIds()[props.trackIndex];
-            if (name.includes("Basedrum") || name.includes("basedrum")) {
-              name = "Basedrum"
-            } else if (name.includes("Snare") || name.includes("snare")){
-              name = "Snare"
-            } else if (name.includes("Hat") || name.includes("hat")){
-              name = "Hihat"
-            } else if (name.includes("Clap") || name.includes("clap")){
-              name = "Clap"
-            }
-            return name
-        })
+    const name = computed(() => usePatternStore().pattern.getSampleIds()[props.trackIndex])
+    const type = computed(() => {
+      let type = name.value;
+      if (type.includes("Basedrum") || type.includes("basedrum")) {
+        type = "Basedrum"
+      } else if (type.includes("Snare") || type.includes("snare")){
+        type = "Snare"
+      } else if (type.includes("Hat") || type.includes("hat")){
+        type = "Hihat"
+      } else if (type.includes("Clap") || type.includes("clap")){
+        type = "Clap"
+      }
+      return type
+    })
 
 </script>
 
 <template>
     <div>
-      <span>{{ name }}</span>
+      <div>{{ type }}</div>
+      <div class="name">{{ name }}</div>
       <BeatButton 
         v-for="index in usePatternStore().pattern.length" 
         :trackIndex="trackIndex" 
@@ -35,6 +37,10 @@
 </template>
 
 <style scoped>
+.name {
+  font-size: 10px;
+}
+
 span {
   display: block;
   margin: 1rem auto;
