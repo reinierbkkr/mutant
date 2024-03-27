@@ -22,6 +22,7 @@
             for (let i = 0; i < tracks.value; i++) {
                 samples.push(i.toString());
             }
+            console.log(samples);
             usePatternStore().setNewPattern(Pattern.createNew(name.value, samples, bars.value*16));
             router.push('/');
         }
