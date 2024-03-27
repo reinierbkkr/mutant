@@ -1,10 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Pattern } from '@/components/classes';
-import { fetchSample, storePattern, fetchPattern } from '@/components/api';
+import { fetchSample, storePattern, fetchPattern, fetchSampleList } from '@/components/api';
 
 export const usePatternStore = defineStore('audioPlayerStore', () => {
-  let pattern = ref(Pattern.createNew("ad", ["0","1","2","3","4"], 4*16))
+  let sampleList = ref([""]);
+  let pattern = ref(Pattern.createNew("new pattern", ["LegoweltBasedrum001","LegoweltSnare010","LegoweltHat1closed","LegoweltClap002"], 4*16))
   const sampleURLs: string[] = [];
   const loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
@@ -13,22 +14,73 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   let count = 0;
 
   (async () => {
-    console.log('loading')
+    await fetchAndPrepareAudio();
+  })();
+
+  async function fetchAndPrepareAudio() {
+    loading.value = true;
+    console.log('loading');
+    await loadSampleList();
+    await loadSampleURLs();
+    loadAudioElements();
+    loading.value = false;
+    console.log('done');
+  }
+
+  async function loadSampleList() {
+    const fetchedSampleList = await fetchSampleList();
+    if (Array.isArray(fetchedSampleList)){
+      sampleList.value = fetchedSampleList;
+    }
+  }
+
+  async function loadSampleURLs() {
     for (const sampleId of pattern.value.getSampleIds()) {
-      const response = await fetchSample(sampleId);
-      if (typeof (response) === 'string'){
-        sampleURLs.push(response);
+      const sampleURL = await loadSampleURL(sampleId);
+      if (sampleURL) {
+        sampleURLs.push(sampleURL);
       }
     }
-    for (let index = 0; index < sampleURLs.length; index++) {
-      loadedSamples.push([])
-        for (let i = 0; i < 16; i++) {
-          loadedSamples[index].push(new Audio(sampleURLs[index]));   
-        }
+  }
+
+  async function reloadAudioElement(sampleId: string, trackIndex: number){
+    loading.value = true;
+    console.log('loading')
+    updateSampleIdForTrack(sampleId, trackIndex);
+    const sampleURL = await loadSampleURL(sampleId);
+    if (typeof (sampleURL) === 'string') {
+      pattern.value.getTrackN(trackIndex).sampleId = sampleId;
+      sampleURLs[trackIndex] = sampleURL;
+      for (let index = 0; index < 16; index++) {
+        loadedSamples[trackIndex][index] = new Audio(sampleURL);
+      }
     }
     loading.value = false;
     console.log('done')
-  })();
+  }
+
+  const updateSampleIdForTrack = (newSampleId: string, trackIndex: number) => {
+    pattern.value.tracks[trackIndex].sampleId = newSampleId;
+  }
+
+  const getSampleIdForTrack = (trackIndex: number) => pattern.value.tracks[trackIndex].sampleId;
+  
+  async function loadSampleURL(sampleId: string){
+    const sampleURL = await fetchSample(sampleId);
+      if (typeof (sampleURL) === 'string') {
+        return sampleURL;
+      }
+      return null;
+  }
+
+  function loadAudioElements() {
+    for (let index = 0; index < sampleURLs.length; index++) {
+      loadedSamples.push([]);
+      for (let i = 0; i < 16; i++) {
+        loadedSamples[index].push(new Audio(sampleURLs[index]));
+      }
+    }
+  }
 
   const playAudio = () => {
     for (let track = 0; track < pattern.value.getNOfTracks(); track++) {
@@ -69,14 +121,18 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   const loadPattern = async (name: string) => {
     const fetchedPattern = await fetchPattern(name);
     if (fetchedPattern instanceof Pattern) {
-      pattern.value = fetchedPattern;
+      setNewPattern(fetchedPattern);
     }
   }
 
   const setNewPattern = (newPattern: Pattern) => {
+    console.log(pattern.value)
+    console.log("newPattern:")
+    console.log(newPattern)
     pattern.value = newPattern;
+    fetchAndPrepareAudio();
   }
 
-  return { pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern }
+  return { getSampleIdForTrack, updateSampleIdForTrack, sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
 
 })

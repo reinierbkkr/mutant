@@ -30,13 +30,21 @@ public class SampleFileStorageTest {
 //        }
 //    }
 //
-//    @Test
-//    public void load_file_with_id_0(){
-//        ISampleStorage storage = new SampleFileStorage();
-//        String b64File = storage.getAudioData("0");
-//
-//        assertNotNull(b64File);
-//    }
+    @Test
+    public void load_file_with_id_LegoweltBasedrum001(){
+        ISampleStorage storage = new SampleFileStorage();
+        String b64File = storage.getAudioData("LegoweltBasedrum001");
+
+        assertNotNull(b64File);
+    }
+
+    @Test
+    public void getAllSampleNames(){
+        ISampleStorage storage = new SampleFileStorage();
+        String[] names = storage.getSampleNames();
+
+        assertFalse(names.length==0);
+    }
 //
 //    @Test
 //    public void load_file_with_id_1(){

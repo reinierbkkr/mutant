@@ -16,8 +16,7 @@ export class Pattern {
             this.name = json.name;
             this.length = json.length;
             for (const track of json.tracks){
-                const itrack: ITrack = track as ITrack;
-                this.tracks.push(Track.createWithJson(itrack));
+                this.tracks.push(Track.createWithJson(track));
             }
         }
     }
@@ -57,7 +56,7 @@ export class Pattern {
 }
 
 export class Track {
-    sampleId: string = "";
+    sampleId = "";
     beats: boolean[] = reactive([]);
 
     constructor(sample?: string, length?: number, json?: ITrack) {
@@ -99,6 +98,6 @@ export interface ITrack {
 
 export interface IPattern {
     name: string;
-    tracks: Track[];
+    tracks: ITrack[];
     length: number;
 }

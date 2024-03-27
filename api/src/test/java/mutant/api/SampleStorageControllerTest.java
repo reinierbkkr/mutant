@@ -12,6 +12,6 @@ public class SampleStorageControllerTest {
 //        System.out.println("Working Directory = " + System.getProperty("user.dir"));
         ISampleStorage storage = new SampleFileStorage();
 
-        assertNotNull(storage.getAudioData("0"));
+        assertNotNull(storage.getAudioData("LegoweltSnare001"));
     }
 }

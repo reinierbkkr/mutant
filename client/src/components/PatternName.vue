@@ -2,14 +2,9 @@
     import { usePatternStore } from '@/stores/stores';
     import { ref, computed, nextTick } from 'vue'
 
-    // const patternName = defineModel();
-
-    // function handleClick(){
-    //     usePatternStore().loadPattern(patternName.value as string);
-    // }
 
     let edit = ref(false);
-    let name = computed(() => {return usePatternStore().pattern.name;});
+    let name = computed(() => usePatternStore().pattern.name);
     const inputField = ref();
 
 
@@ -18,13 +13,11 @@
         nextTick(() => {
             inputField.value.focus();
         });
-
     }
 
     const save = (event: Event) => {
         const target = event.target as HTMLInputElement;
         usePatternStore().pattern.name = target.value;
-    
         edit.value = false;
     }
 

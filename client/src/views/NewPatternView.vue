@@ -20,15 +20,12 @@
         } else {
             const samples: string[] = [];
             for (let i = 0; i < tracks.value; i++) {
-                samples.push(i.toString());
+                samples.push(usePatternStore().sampleList[i]);
             }
-            console.log(samples);
             usePatternStore().setNewPattern(Pattern.createNew(name.value, samples, bars.value*16));
             router.push('/');
         }
-
     }
-
 
 </script>
 
