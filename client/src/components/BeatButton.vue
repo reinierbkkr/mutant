@@ -2,8 +2,6 @@
     import { usePatternStore } from '@/stores/stores';
     import { computed } from 'vue';
 
-    // const { currentPattern } = usePatternStore();
-
     const props = defineProps<{
       trackIndex: number;
       index: number;
@@ -19,38 +17,38 @@
 </script>
 
 <template>
-    <button @click="handleClick" :class="[
+    <div @click="handleClick" :class="[
         active?'active':'inactive',
         (props.index+1)%16===0?'thickborder':
             (props.index+1)%4===0?'thinborder':'noborder',
-        isPlaying?'playing':'notplaying']" />
+        isPlaying&&active?'playing':'']" />
 </template>
 
 <style scoped>
-button {
-  display: block;
-  margin: 0.2rem auto;
-  width: 5rem;
-  height: 1rem;
+
+div {
+  flex-grow: 1;
   border: none;
-  /* border-color: #0c4a6e; */
-  /* border-style: solid;
-  border-radius: 30%; */
-  /* {"border-neutral-100": !hasTurn} */
+  border: .5px solid #042135;
 }
 .thinborder{
-    border-bottom: 1px solid #2372a0;
+    border-right: 1px solid #2372a0;
 }
 .thickborder{
-    border-bottom: 3px solid #2372a0;
+    border-right: 3px solid #2372a0;
 }
 .active {
     background-color: #0c4a6e;
+    box-shadow:inset 0 0 0px 0px #3995c7;
+    transition: 0.4s;
 }
 .inactive {
     background-color: #082f49;
+    box-shadow:inset 0 0 0px 0px #3995c7;
+    transition: 0.4s;
 }
 .playing {
-    box-shadow: 0 0 2px 1px #48abe0;
+    box-shadow:inset 0 0 2px 2px #3995c7;
+    transition: 0.1s;
 }
 </style>

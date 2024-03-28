@@ -8,12 +8,9 @@
 </script>
 
 <template>
-    <button @click="handleClick">save pattern</button>
+    <div class="button green" @click="handleClick">save pattern</div>
 </template>
 
 <style scoped>
-button, div {
-  display: block;
-  margin: 2rem auto 2rem;
-}
+
 </style>

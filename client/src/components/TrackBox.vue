@@ -45,34 +45,54 @@
 </script>
 
 <template>
-    <div>
-      <div>{{ type }}</div>
-      <div class="name" v-if="!edit" @click="handleClick">{{ name }}</div>
-        <select v-if="edit" v-model="chosenSample" ref="selectBox"
-            @keyup.esc="stop();"
-            @blur="save()"
-        >
-          <option :value="chosenSample" :key="chosenSample">{{ chosenSample }}</option>
-          <option v-for="sample of usePatternStore().sampleList" v-show="sample !== chosenSample" :value="sample" :key="sample"
-          >{{ sample }}</option>
-        </select>
-
-      <BeatButton 
-        v-for="index in usePatternStore().pattern.length" 
-        :trackIndex="trackIndex" 
-        :active="usePatternStore().pattern.getTrackN(trackIndex).isBeatActive(index-1)" 
-        :index="index-1" />
+    <div class="container">
+      <div class="editable samplecontainer" @click="handleClick">
+        <div class="type">{{ type }}</div>
+        <div class="name" v-if="!edit">{{ name }}</div>
+          <select v-if="edit" v-model="chosenSample" ref="selectBox"
+              @keyup.esc="stop();"
+              @blur="save()"
+          >
+            <option :value="chosenSample" :key="chosenSample">{{ chosenSample }}</option>
+            <option v-for="sample of usePatternStore().sampleList" v-show="sample !== chosenSample" :value="sample" :key="sample"
+            >{{ sample }}</option>
+          </select>
+        </div>
+        <div class="beatcontainer">
+          <BeatButton 
+            v-for="index in usePatternStore().pattern.length" 
+            :trackIndex="trackIndex" 
+            :active="usePatternStore().pattern.getTrackN(trackIndex).isBeatActive(index-1)" 
+            :index="index-1" />
+        </div>
     </div>
 </template>
 
 <style scoped>
+.container{
+  display: flex;
+  flex-direction: row;
+}
+
+.samplecontainer{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin: 0.5rem;
+}
+
+.type, .name {
+  width: 150px;
+  margin: 0.05rem;
+}
+
 .name {
   font-size: 10px;
 }
 
-span {
-  display: block;
-  margin: 1rem auto;
-  text-align: center;
+.beatcontainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
 }
 </style>

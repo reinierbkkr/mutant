@@ -27,25 +27,25 @@
 </script>
 
 <template>
-    <span>
-        <div>
-            <input type="text"
-                ref="inputField"
-                v-if="edit"
-                :value="name"
-                @keyup.enter="save($event);"
-                @keyup.esc="esc();"
-                @blur="save($event);"
-                />
-            <div v-if="!edit" @click="handleClick">
-                {{ name }}
-            </div>
-        </div>
-    </span>
+    <span>pattern name: </span>
+    <input type="text"
+        ref="inputField"
+        v-if="edit"
+        :value="name"
+        @keyup.enter="save($event);"
+        @keyup.esc="esc();"
+        @blur="save($event);"
+        />
+    <div v-if="!edit" @click="handleClick" class="editable">
+        {{ name }}
+    </div>
 </template>
-
+    
 <style scoped>
-
+.editable {
+    width: 150px;
+    display: inline-block;
+}
 </style>
 
 

@@ -48,7 +48,6 @@
             <option>2</option>
             <option>4</option>
             <option>8</option>
-            <option>16</option>
         </select>
     </div>
     <div>

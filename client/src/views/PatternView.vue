@@ -9,17 +9,34 @@
 </script>
 
 <template>
-    <PatternName />
-    <PlayButton />
-    <div class="container">
+    <div class="playercontainer">
+      <div class="topcontainer">
+      <div class="namecontainer"><PatternName /></div>
+      <div class="buttoncontainer">
+        <PlayButton />
+        <SaveButton />
+      </div>
+    </div>
+    <div class="trackcontainer">
       <TrackBox v-for="(track, index) of usePatternStore().pattern.tracks" :track="track" :trackIndex="index" />
     </div>
-    <SaveButton />
+    </div>
 </template>
 
 <style scoped>
-.container {
+.playercontainer {
+  min-height: 360px;
+}
+
+.topcontainer {
   display: flex;
-  margin: 0;
+  justify-content: space-between;
+  margin: .5rem 0;
+}
+
+.trackcontainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 </style>
