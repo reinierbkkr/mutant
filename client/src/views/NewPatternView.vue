@@ -4,6 +4,8 @@
     import { Pattern } from '@/components/classes';
     import router from '@/router/index';
 
+    usePatternStore().stop()
+
     const bars = ref(1);
     const tracks = ref(2);
     const inputField = ref();

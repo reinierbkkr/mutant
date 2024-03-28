@@ -8,7 +8,7 @@
 </script>
 
 <template>
-    <button @click="handleClick">save</button>
+    <button @click="handleClick">save pattern</button>
 </template>
 
 <style scoped>

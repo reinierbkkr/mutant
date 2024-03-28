@@ -4,6 +4,7 @@ import { RouterView } from 'vue-router'
 data: {
     image: 'logo.png'
   }
+
 </script>
 
 <template>
@@ -12,6 +13,11 @@ data: {
       <img alt="Mutant logo" class="logo" src="@/assets/logo.png" width="75" height="75" />
       <h1>Mutant</h1>
     </div>
+    <nav>
+      <RouterLink to="/">play</RouterLink>
+      <RouterLink to="/newpattern">new pattern</RouterLink>
+      <RouterLink to="/loadpattern">load pattern</RouterLink>
+    </nav>
   </header>
   <main>
     <div class="container">

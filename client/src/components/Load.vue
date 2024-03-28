@@ -1,16 +1,31 @@
 <script setup lang="ts">
     import { usePatternStore } from '@/stores/stores';
-    const patternName = defineModel();
+    import { ref, onMounted } from 'vue'
+    import router from '@/router/index';
+
+    const inputField = ref();
+    const name = ref("");
+    let ok = ref(true);
+
+    onMounted(() => {
+        inputField.value.focus();
+    })
 
     function handleClick(){
-        usePatternStore().loadPattern(patternName.value as string);
+        console.log("this")
+        if (name.value){
+            console.log("not this")
+            usePatternStore().loadPattern(name.value as string);
+            router.push('/');
+        }
     }
 
 </script>
 
 <template>
-    <input v-model="patternName">
+    <input v-model="name" ref="inputField" />
     <button @click="handleClick">load</button>
+    <RouterLink to="/">back</RouterLink>
 </template>
 
 <style scoped>

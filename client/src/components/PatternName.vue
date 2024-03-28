@@ -2,7 +2,6 @@
     import { usePatternStore } from '@/stores/stores';
     import { ref, computed, nextTick } from 'vue'
 
-
     let edit = ref(false);
     let name = computed(() => usePatternStore().pattern.name);
     const inputField = ref();

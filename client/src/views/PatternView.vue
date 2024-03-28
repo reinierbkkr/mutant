@@ -9,14 +9,12 @@
 </script>
 
 <template>
-    <RouterLink to="/newpattern">new pattern</RouterLink>
     <PatternName />
     <PlayButton />
     <div class="container">
       <TrackBox v-for="(track, index) of usePatternStore().pattern.tracks" :track="track" :trackIndex="index" />
     </div>
     <SaveButton />
-    <Load />
 </template>
 
 <style scoped>

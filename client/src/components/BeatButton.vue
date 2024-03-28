@@ -10,6 +10,7 @@
     }>();
 
     const active = computed(() => usePatternStore().pattern.isBeatActive(props.trackIndex, props.index));
+    const isPlaying = computed (() => usePatternStore().isPlaying(props.index))
 
     function handleClick(){
         usePatternStore().pattern.toggleBeat(props.trackIndex, props.index);
@@ -21,7 +22,8 @@
     <button @click="handleClick" :class="[
         active?'active':'inactive',
         (props.index+1)%16===0?'thickborder':
-            (props.index+1)%4===0?'thinborder':'noborder']" />
+            (props.index+1)%4===0?'thinborder':'noborder',
+        isPlaying?'playing':'notplaying']" />
 </template>
 
 <style scoped>
@@ -47,5 +49,8 @@ button {
 }
 .inactive {
     background-color: #082f49;
+}
+.playing {
+    box-shadow: 0 0 2px 1px #48abe0;
 }
 </style>
