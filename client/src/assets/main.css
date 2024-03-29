@@ -1,37 +1,40 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
   font-weight: normal;
-  /* border-style: solid;
-  border-width: 5px; */
 }
 
-a,
-.green {
+a, .green {
+  border-bottom: 1px solid hsla(160, 100%, 37%, 1);
+  cursor: pointer;
   text-decoration: none;
   color: hsla(160, 100%, 37%, 1);
   transition: 0.4s;
-  padding: 3px;
+  padding: 3px 10px;
+  line-height: 1.6;
+}
+
+a {
+  margin: 0 .25rem;
 }
 
 @media (hover: hover) {
-  a:hover {
+  a:hover, .editable:hover, .green:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr; */
-    padding: 0 2rem;
-  }
+.editable {
+  cursor: pointer;
+  transition: 0.4s;
+  padding: 3px 10px;
+  width: 150px;
 }
+
+.button {
+  display: inline-block;
+  border-bottom: 1px solid hsla(160, 100%, 37%, 1);
+  margin-left: .5rem;
+}
+
