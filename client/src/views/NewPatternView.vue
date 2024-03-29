@@ -74,7 +74,7 @@
 }
 
 .small {
-    align-content: center;
+    
     max-width: 50px;
 }
 </style>
