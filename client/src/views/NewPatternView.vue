@@ -9,7 +9,7 @@
     const bars = ref(1);
     const tracks = ref(2);
     const inputField = ref();
-    const name = ref("");
+    const bpm = ref("");
     let ok = ref(true);
 
     onMounted(() => {
@@ -17,14 +17,14 @@
     })
 
     const makePattern = () => {
-        if (!name.value){
+        if (!bpm.value){
             ok.value = false;
         } else {
             const samples: string[] = [];
             for (let i = 0; i < tracks.value; i++) {
                 samples.push(usePatternStore().sampleList[i]);
             }
-            usePatternStore().setNewPattern(Pattern.createNew(name.value, samples, bars.value*16));
+            usePatternStore().setNewPattern(Pattern.createNew(bpm.value, samples, bars.value*16));
             router.push('/');
         }
     }

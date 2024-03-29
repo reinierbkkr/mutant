@@ -4,7 +4,7 @@
     import router from '@/router/index';
 
     const inputField = ref();
-    const name = ref("");
+    const bpm = ref("");
     let ok = ref(true);
 
     onMounted(() => {
@@ -12,8 +12,8 @@
     })
 
     function handleClick(){
-        if (name.value){
-            usePatternStore().loadPattern(name.value as string);
+        if (bpm.value){
+            usePatternStore().loadPattern(bpm.value as string);
             router.push('/');
         }
     }

@@ -3,9 +3,8 @@
     import { ref, computed, nextTick } from 'vue'
 
     const edit = ref(false);
-    const bpm = computed(() => usePatternStore().pattern.name);
+    const bpm = usePatternStore().getBPM();
     const inputField = ref();
-
 
     const handleClick = () =>{
         edit.value = true;
@@ -16,7 +15,8 @@
 
     const save = (event: Event) => {
         const target = event.target as HTMLInputElement;
-        usePatternStore().pattern.name = target.value;
+        console.log(parseInt(target.value));
+        usePatternStore().setBPM(parseInt(target.value))
         edit.value = false;
     }
 
@@ -27,23 +27,23 @@
 </script>
 
 <template>
-    <span>pattern name: </span>
-    <input type="text"
+    <span>BPM: </span>
+    <input type="number"
         v-if="edit"
         ref="inputField"
-        :value="name"
+        :value="bpm"
         @keyup.enter="save($event);"
         @keyup.esc="esc();"
         @blur="save($event);"
         />
     <div v-if="!edit" @click="handleClick" class="editable">
-        {{ name }}
+        {{ bpm }}
     </div>
 </template>
     
 <style scoped>
 input, input:focus {
-    width:150px;
+    width: 28px;
     height: 26px;
     color: var(--color-text);
     border: none;
@@ -55,9 +55,19 @@ input, input:focus {
 }
 
 .editable {
-    width: 150px;
+    width: 28px;
     height: 26px;
     display: inline-block;
+}
+
+input[type="number"] {
+  -webkit-appearance: textfield;
+     -moz-appearance: textfield;
+          appearance: textfield;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
 }
 </style>
 

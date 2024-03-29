@@ -12,6 +12,17 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   let audioInterval: NodeJS.Timeout | null = null;
   let playing = ref(false);
   let count = ref(0);
+  let bpm = ref(120);
+  const getBPM = () => {return bpm.value}
+  const setBPM = (newBpm: number) => {
+    if (newBpm < 40){
+      newBpm = 40;
+    } else if (newBpm > 200){
+      newBpm = 200
+    }
+    bpm.value = newBpm;
+    console.log(bpm.value)
+  }
 
   (async () => {
     await fetchAndPrepareAudio();
@@ -135,6 +146,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     fetchAndPrepareAudio();
   }
 
-  return { getSampleIdForTrack, isPlaying, updateSampleIdForTrack, stop, sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
+  return { getBPM, setBPM, getSampleIdForTrack, isPlaying, updateSampleIdForTrack, stop, sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
 
 })

@@ -7,9 +7,9 @@
       trackIndex: number
     }>();
 
-    const name = computed(() => usePatternStore().getSampleIdForTrack(props.trackIndex))
+    const bpm = computed(() => usePatternStore().getSampleIdForTrack(props.trackIndex))
     const type = computed(() => {
-      let type = name.value;
+      let type = bpm.value;
       if (type.includes("Basedrum") || type.includes("basedrum")) {
         type = "Basedrum"
       } else if (type.includes("Snare") || type.includes("snare")){
@@ -26,7 +26,7 @@
     const edit = ref(false);
     const chosenSample = ref("");
     const handleClick = () => {
-      chosenSample.value = name.value;
+      chosenSample.value = bpm.value;
       edit.value = true;
       nextTick(() => {
           selectBox.value.focus();
