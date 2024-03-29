@@ -12,9 +12,7 @@
     })
 
     function handleClick(){
-        console.log("this")
         if (name.value){
-            console.log("not this")
             usePatternStore().loadPattern(name.value as string);
             router.push('/');
         }

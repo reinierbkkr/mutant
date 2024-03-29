@@ -6,8 +6,8 @@ import { fetchSample, storePattern, fetchPattern, fetchSampleList } from '@/comp
 export const usePatternStore = defineStore('audioPlayerStore', () => {
   let sampleList = ref([""]);
   let pattern = ref(Pattern.createNew("new pattern", ["LegoweltBasedrum001","LegoweltSnare010","LegoweltHat1closed","LegoweltClap002"], 4*16))
-  const sampleURLs: string[] = [];
-  const loadedSamples: HTMLAudioElement[][] = [];
+  let sampleURLs: string[] = [];
+  let loadedSamples: HTMLAudioElement[][] = [];
   let loading = ref(true);
   let audioInterval: NodeJS.Timeout | null = null;
   let playing = ref(false);
@@ -20,6 +20,8 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   async function fetchAndPrepareAudio() {
     loading.value = true;
     console.log('loading');
+    sampleURLs = [];
+    loadedSamples = [];
     await loadSampleList();
     await loadSampleURLs();
     loadAudioElements();
@@ -129,9 +131,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   }
 
   const setNewPattern = (newPattern: Pattern) => {
-    console.log(pattern.value)
-    console.log("newPattern:")
-    console.log(newPattern)
     pattern.value = newPattern;
     fetchAndPrepareAudio();
   }
