@@ -7,17 +7,14 @@
 </script>
 
 <template>
-    <button 
-        @click="togglePlay" 
-        :disabled='usePatternStore().loading?true:false'
-    >
-        {{ usePatternStore().playing ? "stop" : "play"}}
-    </button>
+    <div class="button green"
+            @click="togglePlay" 
+            :disabled='usePatternStore().loading?true:false'
+        >
+            {{ usePatternStore().playing ? "stop" : "play"}}
+    </div>
 </template>
 
 <style scoped>
-button, div {
-  display: block;
-  margin: 2rem auto 2rem;
-}
+
 </style>

@@ -11,7 +11,7 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   let loading = ref(true);
   let audioInterval: NodeJS.Timeout | null = null;
   let playing = ref(false);
-  let count = 0;
+  let count = ref(0);
 
   (async () => {
     await fetchAndPrepareAudio();
@@ -64,6 +64,8 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
   }
 
   const getSampleIdForTrack = (trackIndex: number) => pattern.value.tracks[trackIndex].sampleId;
+
+  const isPlaying = (index: number) => playing.value && count.value === index;
   
   async function loadSampleURL(sampleId: string){
     const sampleURL = await fetchSample(sampleId);
@@ -84,16 +86,16 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
 
   const playAudio = () => {
     for (let track = 0; track < pattern.value.getNOfTracks(); track++) {
-        const beat = pattern.value.getTrackN(track).beats[count];
+        const beat = pattern.value.getTrackN(track).beats[count.value];
 
-        if (pattern.value.isBeatActive(track, count)) {
-            loadedSamples[track][count%16].play();
+        if (pattern.value.isBeatActive(track, count.value)) {
+            loadedSamples[track][count.value%16].play();
         }
     }
 
-    count = (count === pattern.value.length -1) 
+    count.value = (count.value === pattern.value.length -1) 
         ? 0 
-        : count+1;
+        : count.value+1;
   }
 
   const togglePlay = () => {    
@@ -108,9 +110,10 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
 
   const stop = () => {
     if (audioInterval !== null) {
+        playing.value = false;
         clearInterval(audioInterval);
         audioInterval = null;
-        count = 0;
+        count.value = 0;
     }
   }
 
@@ -133,6 +136,6 @@ export const usePatternStore = defineStore('audioPlayerStore', () => {
     fetchAndPrepareAudio();
   }
 
-  return { getSampleIdForTrack, updateSampleIdForTrack, sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
+  return { getSampleIdForTrack, isPlaying, updateSampleIdForTrack, stop, sampleList, pattern, loading, playing, togglePlay, savePattern, loadPattern, setNewPattern, reloadAudioElement }
 
 })
